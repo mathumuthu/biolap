@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BioLab - Forgot Password</title>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#0d9488,#1e3a5f);
+}
+
+/* Container */
+.container{
+    width:450px;
+    max-width:95%;
+    background:#fff;
+    padding:40px;
+    border-radius:20px;
+    box-shadow:0 30px 80px rgba(0,0,0,0.3);
+    text-align:center;
+}
+
+/* Icon */
+.icon{
+    width:80px;
+    height:80px;
+    background:#0d9488;
+    color:#fff;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:30px;
+    margin:0 auto 20px;
+}
+
+/* Title */
+h2{
+    color:#1e293b;
+    margin-bottom:10px;
+}
+
+p{
+    font-size:14px;
+    color:#64748b;
+    margin-bottom:25px;
+}
+
+/* Input */
+.input-group{
+    position:relative;
+    margin-bottom:20px;
+}
+
+.input-group input{
+    width:100%;
+    padding:15px 15px 15px 45px;
+    border-radius:10px;
+    border:1px solid #ddd;
+    outline:none;
+}
+
+.input-group i{
+    position:absolute;
+    left:15px;
+    top:50%;
+    transform:translateY(-50%);
+    color:#0d9488;
+}
+
+/* Button */
+.btn{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:10px;
+    background:#0d9488;
+    color:#fff;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.btn:hover{
+    background:#0f766e;
+}
+
+/* Back link */
+.back{
+    margin-top:20px;
+    font-size:14px;
+}
+
+.back a{
+    text-decoration:none;
+    color:#0d9488;
+    font-weight:600;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="icon">
+        <i class="fas fa-lock"></i>
+    </div>
+
+    <h2>Forgot Password?</h2>
+    <p>Enter your email address and we’ll send you a reset link.</p>
+
+    <form onsubmit="resetPassword(event)">
+        <div class="input-group">
+            <i class="fas fa-envelope"></i>
+            <input type="email" placeholder="Enter your email" required>
+        </div>
+
+        <button class="btn">Send Reset Link</button>
+    </form>
+
+    <div class="back">
+        <a href="login.html">← Back to Login</a>
+    </div>
+
+</div>
+
+<script>
+function resetPassword(e){
+    e.preventDefault();
+    alert("Reset link sent to your email (Demo)");
+}
+</script>
+
+</body>
+</html>

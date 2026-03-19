@@ -1,0 +1,1689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#059669">
+    <title>HealthHub - Patient Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --primary: #059669;
+            --primary-dark: #047857;
+            --primary-light: #10b981;
+            --secondary: #0ea5e9;
+            --accent: #f59e0b;
+            --danger: #ef4444;
+            --warning: #f97316;
+            --success: #22c55e;
+            
+            --dark: #0f172a;
+            --gray-900: #111827;
+            --gray-800: #1f2937;
+            --gray-700: #374151;
+            --gray-600: #4b5563;
+            --gray-500: #6b7280;
+            --gray-400: #9ca3af;
+            --gray-300: #d1d5db;
+            --gray-200: #e5e7eb;
+            --gray-100: #f3f4f6;
+            --gray-50: #f9fafb;
+            
+            --white: #ffffff;
+            --bg: #f8fafc;
+            
+            --gradient-primary: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            --gradient-health: linear-gradient(135deg, #059669 0%, #0ea5e9 100%);
+            --gradient-danger: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 6px 12px -2px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            
+            --radius-sm: 8px;
+            --radius: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            
+            --sidebar-width: 280px;
+            --header-height: 70px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ==================== DESKTOP LAYOUT ==================== */
+        
+        .desktop-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Desktop Sidebar */
+        .desktop-sidebar {
+            width: var(--sidebar-width);
+            background: var(--white);
+            border-right: 1px solid var(--gray-200);
+            position: fixed;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .sidebar-brand {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .brand-logo {
+            width: 44px;
+            height: 44px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .brand-info h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .brand-info span {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 1.5rem 1rem;
+            overflow-y: auto;
+        }
+
+        .nav-section {
+            margin-bottom: 2rem;
+        }
+
+        .nav-section-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--gray-400);
+            padding: 0 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .nav-list {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 0.25rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+            padding: 0.875rem 1rem;
+            color: var(--gray-600);
+            text-decoration: none;
+            border-radius: var(--radius);
+            font-size: 0.9375rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(5, 150, 105, 0.1);
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            font-weight: 600;
+        }
+
+        .nav-link i {
+            font-size: 1.25rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .nav-badge {
+            margin-left: auto;
+            background: var(--primary);
+            color: white;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.625rem;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+        }
+
+        .sidebar-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .user-card {
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+            padding: 1rem;
+            background: var(--gray-50);
+            border-radius: var(--radius-lg);
+        }
+
+        .user-avatar {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .user-details h4 {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .user-details p {
+            font-size: 0.875rem;
+            color: var(--gray-500);
+        }
+
+        /* Desktop Main Content */
+        .desktop-main {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .desktop-header {
+            height: var(--header-height);
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-200);
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .header-search {
+            position: relative;
+            width: 400px;
+        }
+
+        .header-search input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.75rem;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-full);
+            background: var(--gray-50);
+            font-size: 0.9375rem;
+            transition: all 0.2s;
+        }
+
+        .header-search input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-400);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header-btn {
+            width: 44px;
+            height: 44px;
+            border: 1px solid var(--gray-200);
+            background: white;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .header-btn:hover {
+            border-color: var(--primary);
+            background: rgba(5, 150, 105, 0.05);
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 10px;
+            height: 10px;
+            background: var(--danger);
+            border-radius: 50%;
+            border: 2px solid white;
+            animation: pulse 2s infinite;
+        }
+
+        .desktop-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        /* ==================== MOBILE LAYOUT ==================== */
+        
+        .mobile-layout {
+            display: none;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        .mobile-header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 1.25rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .mobile-header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .mobile-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .mobile-brand-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .mobile-brand-text h1 {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .mobile-brand-text span {
+            font-size: 0.7rem;
+            opacity: 0.9;
+            text-transform: uppercase;
+        }
+
+        .mobile-header-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .mobile-header-btn {
+            width: 44px;
+            height: 44px;
+            background: rgba(255,255,255,0.15);
+            border: none;
+            border-radius: var(--radius);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            position: relative;
+        }
+
+        .mobile-patient-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .mobile-patient-avatar {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .mobile-patient-info h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .mobile-patient-info p {
+            font-size: 0.875rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.375rem 0.875rem;
+            background: rgba(255,255,255,0.2);
+            border-radius: var(--radius-full);
+        }
+
+        .status-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #4ade80;
+            border-radius: 50%;
+            animation: blink 2s infinite;
+        }
+
+        .mobile-content {
+            flex: 1;
+            padding: 1.25rem;
+            padding-bottom: 100px;
+        }
+
+        .mobile-bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid var(--gray-200);
+            padding: 0.75rem 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .mobile-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.5rem 1rem;
+            color: var(--gray-400);
+            text-decoration: none;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .mobile-nav-item i {
+            font-size: 1.5rem;
+        }
+
+        .mobile-nav-item.active {
+            color: var(--primary);
+        }
+
+        /* ==================== SHARED COMPONENTS ==================== */
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .desktop-layout .stats-grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .mobile-layout .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s;
+        }
+
+        .mobile-layout .stat-card {
+            padding: 1.25rem;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .mobile-layout .stat-icon {
+            width: 48px;
+            height: 48px;
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .stat-icon.blue { background: #dbeafe; }
+        .stat-icon.green { background: #d1fae5; }
+        .stat-icon.orange { background: #ffedd5; }
+        .stat-icon.purple { background: #f3e8ff; }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .mobile-layout .stat-value {
+            font-size: 1.75rem;
+        }
+
+        .stat-label {
+            font-size: 0.9375rem;
+            color: var(--gray-500);
+            font-weight: 500;
+        }
+
+        .mobile-layout .stat-label {
+            font-size: 0.875rem;
+        }
+
+        /* Section Header */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .mobile-layout .section-title {
+            font-size: 1.125rem;
+        }
+
+        .view-all {
+            font-size: 0.9375rem;
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--gray-200);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        /* Appointment Card */
+        .appointment-card {
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .appointment-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--gradient-primary);
+        }
+
+        .appointment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.25rem;
+        }
+
+        .appointment-type {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(5, 150, 105, 0.1);
+            color: var(--primary);
+            border-radius: var(--radius-full);
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .appointment-date {
+            text-align: center;
+        }
+
+        .appointment-day {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--dark);
+            line-height: 1;
+        }
+
+        .appointment-month {
+            font-size: 0.875rem;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .doctor-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .doctor-avatar {
+            width: 56px;
+            height: 56px;
+            background: var(--gradient-health);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .doctor-details h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .doctor-details p {
+            color: var(--gray-500);
+        }
+
+        .appointment-time {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: var(--gray-50);
+            border-radius: var(--radius);
+            margin-bottom: 1.25rem;
+            color: var(--gray-600);
+        }
+
+        .appointment-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 0.875rem 1.5rem;
+            border-radius: var(--radius);
+            font-size: 0.9375rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 4px 14px rgba(5, 150, 105, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(5, 150, 105, 0.5);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--gray-700);
+            border: 1px solid var(--gray-300);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-50);
+        }
+
+        /* Metrics */
+        .metrics-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .desktop-layout .metrics-grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .mobile-layout .metrics-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .metric-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .mobile-layout .metric-card {
+            padding: 1.25rem;
+        }
+
+        .metric-icon-wrap {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 1rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .mobile-layout .metric-icon-wrap {
+            width: 56px;
+            height: 56px;
+            font-size: 1.75rem;
+        }
+
+        .metric-icon-wrap.heart { background: #fee2e2; }
+        .metric-icon-wrap.temp { background: #ffedd5; }
+        .metric-icon-wrap.oxygen { background: #dbeafe; }
+        .metric-icon-wrap.weight { background: #f3e8ff; }
+
+        .metric-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .mobile-layout .metric-value {
+            font-size: 1.5rem;
+        }
+
+        .metric-label {
+            font-size: 0.9375rem;
+            color: var(--gray-500);
+            margin-bottom: 0.75rem;
+        }
+
+        .metric-status {
+            font-size: 0.875rem;
+            font-weight: 600;
+            padding: 0.375rem 1rem;
+            border-radius: var(--radius-full);
+            display: inline-block;
+        }
+
+        .metric-status.normal { background: #d1fae5; color: #059669; }
+        .metric-status.warning { background: #ffedd5; color: #c2410c; }
+
+        /* Medications */
+        .med-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .med-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.25rem;
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--gray-200);
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .med-item:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow);
+        }
+
+        .med-icon {
+            width: 52px;
+            height: 52px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .med-info {
+            flex: 1;
+        }
+
+        .med-name {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .med-dose {
+            font-size: 0.875rem;
+            color: var(--gray-500);
+        }
+
+        .med-time {
+            text-align: right;
+        }
+
+        .time-pill {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: var(--primary);
+            background: rgba(5, 150, 105, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-full);
+        }
+
+        .time-pill.taken {
+            background: var(--gray-100);
+            color: var(--gray-500);
+            text-decoration: line-through;
+        }
+
+        /* Lab Results */
+        .lab-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .desktop-layout .lab-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .lab-card {
+            margin-bottom: 0;
+        }
+
+        .lab-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .lab-title {
+            font-weight: 600;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .lab-date {
+            font-size: 0.875rem;
+            color: var(--gray-500);
+        }
+
+        .lab-result {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.875rem 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .lab-result:last-child {
+            border-bottom: none;
+        }
+
+        .lab-test {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .lab-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .lab-dot.normal { background: var(--success); }
+        .lab-dot.high { background: var(--warning); }
+        .lab-dot.low { background: var(--secondary); }
+
+        .lab-value {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        /* Emergency Button */
+        .emergency-section {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .emergency-btn {
+            width: 100%;
+            max-width: 400px;
+            padding: 1.25rem;
+            background: var(--gradient-danger);
+            color: white;
+            border: none;
+            border-radius: var(--radius-lg);
+            font-size: 1.125rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4);
+            animation: pulse-danger 2s infinite;
+        }
+
+        @keyframes pulse-danger {
+            0%, 100% { box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4); }
+            50% { box-shadow: 0 4px 30px rgba(239, 68, 68, 0.6); }
+        }
+
+        .emergency-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Content Grid Desktop */
+        .content-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .desktop-layout .content-grid {
+            grid-template-columns: 2fr 1fr;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* ==================== RESPONSIVE BREAKPOINTS ==================== */
+
+        @media (max-width: 1200px) {
+            .desktop-layout .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .desktop-layout .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .desktop-layout .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .desktop-layout {
+                display: none;
+            }
+            .mobile-layout {
+                display: flex;
+            }
+        }
+
+        /* Touch optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            .stat-card:hover, .metric-card:hover, .med-item:hover {
+                transform: none;
+            }
+            .btn:hover {
+                transform: none;
+            }
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--gray-100);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--gray-300);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gray-400);
+        }
+    </style>
+</head>
+<body>
+    <!-- ==================== DESKTOP VIEW ==================== -->
+    <div class="desktop-layout">
+        <!-- Sidebar -->
+        <aside class="desktop-sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-logo">🏥</div>
+                <div class="brand-info">
+                    <h2>HealthHub</h2>
+                    <span>Patient Portal</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Main Menu</div>
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link active">
+                                <i>🏠</i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i>📅</i>
+                                <span>Appointments</span>
+                                <span class="nav-badge">3</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i>💊</i>
+                                <span>Medications</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i>📋</i>
+                                <span>Lab Results</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Health Records</div>
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i>📊</i>
+                                <span>Vital Signs</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i>📄</i>
+                                <span>Documents</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i>💬</i>
+                                <span>Messages</span>
+                                <span class="nav-badge">5</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-card">
+                    <div class="user-avatar">JD</div>
+                    <div class="user-details">
+                        <h4>John Doe</h4>
+                        <p>Patient ID: #8847</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="desktop-main">
+            <!-- Header -->
+            <header class="desktop-header">
+                <div class="header-search">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" placeholder="Search appointments, medications, lab results...">
+                </div>
+                <div class="header-actions">
+                    <button class="header-btn">❓</button>
+                    <button class="header-btn">
+                        🔔
+                        <span class="notification-dot"></span>
+                    </button>
+                    <button class="header-btn">⚙️</button>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <div class="desktop-content">
+                <!-- Welcome -->
+                <div style="margin-bottom: 2rem;">
+                    <h1 style="font-size: 1.875rem; font-weight: 700; color: var(--dark); margin-bottom: 0.5rem;">
+                        Welcome back, John! 👋
+                    </h1>
+                    <p style="color: var(--gray-500);">Here's your health overview for today.</p>
+                </div>
+
+                <!-- Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">📅</div>
+                        <div class="stat-value">3</div>
+                        <div class="stat-label">Upcoming Appointments</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green">💊</div>
+                        <div class="stat-value">5</div>
+                        <div class="stat-label">Active Medications</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange">📋</div>
+                        <div class="stat-value">12</div>
+                        <div class="stat-label">Lab Reports</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon purple">💬</div>
+                        <div class="stat-value">8</div>
+                        <div class="stat-label">Unread Messages</div>
+                    </div>
+                </div>
+
+                <!-- Main Grid -->
+                <div class="content-grid">
+                    <div class="left-column">
+                        <!-- Next Appointment -->
+                        <div class="section-header">
+                            <h2 class="section-title">📅 Next Appointment</h2>
+                            <a href="#" class="view-all">View All →</a>
+                        </div>
+                        
+                        <div class="card appointment-card">
+                            <div class="card-body">
+                                <div class="appointment-header">
+                                    <span class="appointment-type">🏥 General Check-up</span>
+                                    <div class="appointment-date">
+                                        <div class="appointment-day">24</div>
+                                        <div class="appointment-month">Mar</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="doctor-info">
+                                    <div class="doctor-avatar">SJ</div>
+                                    <div class="doctor-details">
+                                        <h4>Dr. Sarah Johnson</h4>
+                                        <p>Cardiologist • City General Hospital</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="appointment-time">
+                                    <span>🕐</span>
+                                    <span>Today, 2:30 PM - 3:00 PM (30 min)</span>
+                                </div>
+                                
+                                <div class="appointment-actions">
+                                    <button class="btn btn-primary">📹 Join Video Call</button>
+                                    <button class="btn btn-secondary">📄 View Details</button>
+                                    <button class="btn btn-secondary">📍 Directions</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Medications -->
+                        <div class="section-header">
+                            <h2 class="section-title">💊 Today's Medications</h2>
+                            <a href="#" class="view-all">Manage →</a>
+                        </div>
+                        
+                        <div class="med-list">
+                            <div class="med-item">
+                                <div class="med-icon">💊</div>
+                                <div class="med-info">
+                                    <div class="med-name">Metformin</div>
+                                    <div class="med-dose">500mg • Take after breakfast</div>
+                                </div>
+                                <div class="med-time">
+                                    <span class="time-pill taken">✓ Taken at 8:30 AM</span>
+                                </div>
+                            </div>
+                            
+                            <div class="med-item">
+                                <div class="med-icon">💊</div>
+                                <div class="med-info">
+                                    <div class="med-name">Lisinopril</div>
+                                    <div class="med-dose">10mg • Take with food</div>
+                                </div>
+                                <div class="med-time">
+                                    <span class="time-pill">1:00 PM</span>
+                                </div>
+                            </div>
+                            
+                            <div class="med-item">
+                                <div class="med-icon">💊</div>
+                                <div class="med-info">
+                                    <div class="med-name">Atorvastatin</div>
+                                    <div class="med-dose">20mg • Take in the evening</div>
+                                </div>
+                                <div class="med-time">
+                                    <span class="time-pill">8:00 PM</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="right-column">
+                        <!-- Health Metrics -->
+                        <div class="section-header">
+                            <h2 class="section-title">📊 Vital Signs</h2>
+                            <a href="#" class="view-all">History →</a>
+                        </div>
+                        
+                        <div class="metrics-grid" style="grid-template-columns: 1fr;">
+                            <div class="metric-card">
+                                <div class="metric-icon-wrap heart">❤️</div>
+                                <div class="metric-value">72 BPM</div>
+                                <div class="metric-label">Heart Rate</div>
+                                <span class="metric-status normal">Normal</span>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-icon-wrap temp">🌡️</div>
+                                <div class="metric-value">98.6°F</div>
+                                <div class="metric-label">Temperature</div>
+                                <span class="metric-status normal">Normal</span>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-icon-wrap oxygen">💨</div>
+                                <div class="metric-value">98%</div>
+                                <div class="metric-label">Blood Oxygen</div>
+                                <span class="metric-status normal">Normal</span>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-icon-wrap weight">⚖️</div>
+                                <div class="metric-value">165 lbs</div>
+                                <div class="metric-label">Weight</div>
+                                <span class="metric-status warning">High</span>
+                            </div>
+                        </div>
+
+                        <!-- Lab Results -->
+                        <div class="section-header">
+                            <h2 class="section-title">🔬 Recent Labs</h2>
+                            <a href="#" class="view-all">All Results →</a>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="lab-header">
+                                    <span class="lab-title">🔬 Blood Work</span>
+                                    <span class="lab-date">Mar 15, 2026</span>
+                                </div>
+                                
+                                <div class="lab-result">
+                                    <div class="lab-test">
+                                        <span class="lab-dot normal"></span>
+                                        <span>Glucose</span>
+                                    </div>
+                                    <span class="lab-value">95 mg/dL</span>
+                                </div>
+                                <div class="lab-result">
+                                    <div class="lab-test">
+                                        <span class="lab-dot high"></span>
+                                        <span>Cholesterol</span>
+                                    </div>
+                                    <span class="lab-value">210 mg/dL</span>
+                                </div>
+                                <div class="lab-result">
+                                    <div class="lab-test">
+                                        <span class="lab-dot normal"></span>
+                                        <span>Hemoglobin</span>
+                                    </div>
+                                    <span class="lab-value">14.2 g/dL</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Emergency -->
+                <div class="emergency-section">
+                    <button class="emergency-btn" onclick="handleEmergency()">
+                        🚨 Emergency SOS
+                    </button>
+                    <p style="color: var(--gray-500); margin-top: 0.75rem; font-size: 0.9375rem;">
+                        Press for immediate medical assistance
+                    </p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ==================== MOBILE VIEW ==================== -->
+    <div class="mobile-layout">
+        <!-- Header -->
+        <header class="mobile-header">
+            <div class="mobile-header-top">
+                <div class="mobile-brand">
+                    <div class="mobile-brand-icon">🏥</div>
+                    <div class="mobile-brand-text">
+                        <h1>HealthHub</h1>
+                        <span>Patient Portal</span>
+                    </div>
+                </div>
+                <div class="mobile-header-actions">
+                    <button class="mobile-header-btn">🔔</button>
+                    <button class="mobile-header-btn">⚙️</button>
+                </div>
+            </div>
+            
+            <div class="mobile-patient-card">
+                <div class="mobile-patient-avatar">JD</div>
+                <div class="mobile-patient-info">
+                    <h3>John Doe</h3>
+                    <p>Patient ID: #P-2024-8847</p>
+                    <span class="status-badge">Active Treatment</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content -->
+        <main class="mobile-content">
+            <!-- Quick Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue">📅</div>
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">Appointments</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon green">💊</div>
+                    <div class="stat-value">5</div>
+                    <div class="stat-label">Medications</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon orange">📋</div>
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">Lab Reports</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon purple">💬</div>
+                    <div class="stat-value">8</div>
+                    <div class="stat-label">Messages</div>
+                </div>
+            </div>
+
+            <!-- Next Appointment -->
+            <div class="section-header">
+                <h2 class="section-title">📅 Next Appointment</h2>
+                <a href="#" class="view-all">View All →</a>
+            </div>
+            
+            <div class="card appointment-card">
+                <div class="appointment-header" style="padding: 1.25rem 1.25rem 0;">
+                    <span class="appointment-type">🏥 Check-up</span>
+                    <div class="appointment-date">
+                        <div class="appointment-day">24</div>
+                        <div class="appointment-month">Mar</div>
+                    </div>
+                </div>
+                
+                <div class="card-body">
+                    <div class="doctor-info">
+                        <div class="doctor-avatar">SJ</div>
+                        <div class="doctor-details">
+                            <h4>Dr. Sarah Johnson</h4>
+                            <p>Cardiologist</p>
+                        </div>
+                    </div>
+                    
+                    <div class="appointment-time">
+                        <span>🕐</span>
+                        <span>Today, 2:30 PM - 3:00 PM</span>
+                    </div>
+                    
+                    <div class="appointment-actions">
+                        <button class="btn btn-primary">📹 Join Call</button>
+                        <button class="btn btn-secondary">📍 Directions</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Health Metrics -->
+            <div class="section-header">
+                <h2 class="section-title">📊 Health Metrics</h2>
+                <a href="#" class="view-all">History →</a>
+            </div>
+            
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-icon-wrap heart">❤️</div>
+                    <div class="metric-value">72</div>
+                    <div class="metric-label">Heart Rate</div>
+                    <span class="metric-status normal">Normal</span>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon-wrap temp">🌡️</div>
+                    <div class="metric-value">98.6</div>
+                    <div class="metric-label">Temperature</div>
+                    <span class="metric-status normal">Normal</span>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon-wrap oxygen">💨</div>
+                    <div class="metric-value">98%</div>
+                    <div class="metric-label">Oxygen</div>
+                    <span class="metric-status normal">Normal</span>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon-wrap weight">⚖️</div>
+                    <div class="metric-value">165</div>
+                    <div class="metric-label">Weight</div>
+                    <span class="metric-status warning">High</span>
+                </div>
+            </div>
+
+            <!-- Medications -->
+            <div class="section-header">
+                <h2 class="section-title">💊 Today's Medications</h2>
+                <a href="#" class="view-all">Manage →</a>
+            </div>
+            
+            <div class="med-list">
+                <div class="med-item">
+                    <div class="med-icon">💊</div>
+                    <div class="med-info">
+                        <div class="med-name">Metformin</div>
+                        <div class="med-dose">500mg • After breakfast</div>
+                    </div>
+                    <div class="med-time">
+                        <span class="time-pill taken">✓ Taken</span>
+                    </div>
+                </div>
+                
+                <div class="med-item">
+                    <div class="med-icon">💊</div>
+                    <div class="med-info">
+                        <div class="med-name">Lisinopril</div>
+                        <div class="med-dose">10mg • With food</div>
+                    </div>
+                    <div class="med-time">
+                        <span class="time-pill">1:00 PM</span>
+                    </div>
+                </div>
+                
+                <div class="med-item">
+                    <div class="med-icon">💊</div>
+                    <div class="med-info">
+                        <div class="med-name">Atorvastatin</div>
+                        <div class="med-dose">20mg • Evening</div>
+                    </div>
+                    <div class="med-time">
+                        <span class="time-pill">8:00 PM</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lab Results -->
+            <div class="section-header">
+                <h2 class="section-title">🔬 Recent Labs</h2>
+                <a href="#" class="view-all">Details →</a>
+            </div>
+            
+            <div class="card">
+                <div class="card-body">
+                    <div class="lab-header">
+                        <span class="lab-title">🔬 Blood Work</span>
+                        <span class="lab-date">Mar 15</span>
+                    </div>
+                    
+                    <div class="lab-result">
+                        <div class="lab-test">
+                            <span class="lab-dot normal"></span>
+                            <span>Glucose</span>
+                        </div>
+                        <span class="lab-value">95 mg/dL</span>
+                    </div>
+                    <div class="lab-result">
+                        <div class="lab-test">
+                            <span class="lab-dot high"></span>
+                            <span>Cholesterol</span>
+                        </div>
+                        <span class="lab-value">210 mg/dL</span>
+                    </div>
+                    <div class="lab-result">
+                        <div class="lab-test">
+                            <span class="lab-dot normal"></span>
+                            <span>Hemoglobin</span>
+                        </div>
+                        <span class="lab-value">14.2 g/dL</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Emergency -->
+            <div class="emergency-section">
+                <button class="emergency-btn" onclick="handleEmergency()">
+                    🚨 Emergency SOS
+                </button>
+                <p style="font-size: 0.875rem; color: var(--gray-500); margin-top: 0.75rem;">
+                    Press for immediate medical assistance
+                </p>
+            </div>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="mobile-bottom-nav">
+            <a href="#" class="mobile-nav-item active">
+                <i>🏠</i>
+                <span>Home</span>
+            </a>
+            <a href="#" class="mobile-nav-item">
+                <i>📅</i>
+                <span>Visits</span>
+            </a>
+            <a href="#" class="mobile-nav-item">
+                <i>💊</i>
+                <span>Meds</span>
+            </a>
+            <a href="#" class="mobile-nav-item">
+                <i>💬</i>
+                <span>Chat</span>
+            </a>
+            <a href="#" class="mobile-nav-item">
+                <i>👤</i>
+                <span>Profile</span>
+            </a>
+        </nav>
+    </div>
+
+    <script>
+        // Emergency handler
+        function handleEmergency() {
+            if (confirm('🚨 Call Emergency Services?\n\nThis will dial 911 immediately.')) {
+                window.location.href = 'tel:911';
+            }
+        }
+
+        // Medication toggle
+        document.querySelectorAll('.med-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const pill = this.querySelector('.time-pill');
+                if (!pill.classList.contains('taken')) {
+                    pill.classList.add('taken');
+                    pill.textContent = '✓ Taken';
+                }
+            });
+        });
+
+        // Mobile nav active state
+        document.querySelectorAll('.mobile-nav-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelectorAll('.mobile-nav-item').forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+            });
+        });
+
+        // Touch feedback
+        document.querySelectorAll('.btn, .med-item, .stat-card, .metric-card').forEach(el => {
+            el.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(0.98)';
+            }, { passive: true });
+            
+            el.addEventListener('touchend', function() {
+                this.style.transform = '';
+            }, { passive: true });
+        });
+
+        // Prevent double-tap zoom
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', (e) => {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                e.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, { passive: false });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research - Labtox</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================
+           ROOT VARIABLES & RESET (From Original Snippet)
+           ============================================ */
+        :root {
+            --primary: #0d9488;
+            --primary-light: #14b8a6;
+            --primary-dark: #0f766e;
+            --secondary: #134e4a;
+            --dark-blue: #1e3a5f;
+            --darker-blue: #0f172a;
+            --light-bg: #f8fafc;
+            --lighter-bg: #f1f5f9;
+            --white: #ffffff;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --error: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            overflow-x: hidden;
+            background: var(--light-bg);
+        }
+
+        /* ============================================
+           ANIMATIONS (From Original Snippet)
+           ============================================ */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-60px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(60px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(13, 148, 136, 0); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        @keyframes slideInDown {
+            from { transform: translate3d(0, -100%, 0); opacity: 0; }
+            to { transform: translate3d(0, 0, 0); opacity: 1; }
+        }
+
+        @keyframes loginPulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(13, 148, 136, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(13, 148, 136, 0); }
+        }
+
+        @keyframes loginShake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-3px); }
+            20%, 40%, 60%, 80% { transform: translateX(3px); }
+        }
+
+        /* Utility Classes */
+        .animate-on-scroll { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
+        .delay-100 { transition-delay: 0.1s; }
+        .delay-200 { transition-delay: 0.2s; }
+        .delay-300 { transition-delay: 0.3s; }
+
+        /* ============================================
+           HEADER & TOP BAR (Exact Replica)
+           ============================================ */
+        .top-bar {
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--darker-blue) 100%);
+            padding: 15px 0; position: relative; overflow: hidden;
+        }
+
+        .top-bar::before {
+            content: ''; position: absolute; top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        .top-bar-content {
+            max-width: 1400px; margin: 0 auto; padding: 0 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 15px; position: relative; z-index: 1;
+        }
+
+        .top-left {
+            display: flex; align-items: center; gap: 30px;
+        }
+
+        .phone-number, .email-info {
+            color: var(--white); display: flex; align-items: center;
+            gap: 10px; font-size: 14px; animation: fadeInLeft 0.8s ease-out;
+        }
+
+        .phone-number i, .email-info i {
+            color: var(--primary); animation: pulse 2s infinite;
+        }
+
+        .top-bar-right {
+            display: flex; align-items: center; gap: 20px;
+        }
+
+        .language-selector { position: relative; }
+
+        .lang-btn {
+            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+            color: var(--white); padding: 8px 15px; border-radius: 20px;
+            cursor: pointer; display: flex; align-items: center; gap: 8px;
+            font-size: 13px; transition: all 0.3s ease;
+        }
+
+        .lang-btn:hover { background: rgba(255,255,255,0.2); transform: translateY(-2px); }
+
+        .lang-dropdown {
+            position: absolute; top: 100%; right: 0; margin-top: 10px;
+            background: var(--white); border-radius: 10px; padding: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); opacity: 0; visibility: hidden;
+            transform: translateY(-10px); transition: all 0.3s ease; min-width: 150px;
+        }
+
+        .lang-dropdown.active { opacity: 1; visibility: visible; transform: translateY(0); }
+
+        .lang-option {
+            padding: 10px 15px; cursor: pointer; border-radius: 5px;
+            transition: all 0.3s ease; color: var(--text-dark);
+        }
+
+        .lang-option:hover { background: var(--light-bg); color: var(--primary); }
+
+        /* Enhanced Login Button */
+        .login-btn {
+            background: transparent; color: var(--white);
+            padding: 12px 28px; border: 2px solid var(--primary);
+            border-radius: 30px; text-decoration: none; font-size: 13px;
+            font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+            position: relative; overflow: hidden; display: flex;
+            align-items: center; gap: 10px;
+            animation: loginPulse 2s infinite, fadeInRight 0.8s ease-out 0.2s both;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .login-btn::before {
+            content: ''; position: absolute; top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .login-btn:hover::before { left: 100%; }
+
+        .login-btn:hover {
+            background: var(--primary); transform: scale(1.08) translateY(-2px);
+            animation: loginShake 0.6s ease-in-out;
+            border-color: var(--primary); letter-spacing: 2px;
+        }
+
+        .login-btn i { transition: all 0.4s ease; }
+
+        .login-btn:hover i { transform: rotate(360deg) scale(1.2); }
+
+        .appointment-btn {
+            background: var(--primary); color: var(--white);
+            padding: 12px 28px; border-radius: 30px; text-decoration: none;
+            font-size: 13px; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 1px; position: relative; overflow: hidden;
+            animation: fadeInRight 0.8s ease-out;
+            transition: all 0.4s ease; border: 2px solid var(--primary);
+        }
+
+        .appointment-btn::before {
+            content: ''; position: absolute; top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s;
+        }
+
+        .appointment-btn:hover::before { left: 100%; }
+
+        .appointment-btn:hover {
+            background: transparent; transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(13, 148, 136, 0.4);
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+            animation: slideInDown 0.8s ease-out;
+        }
+
+        .nav-container {
+            max-width: 1400px; margin: 0 auto; padding: 18px 20px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .logo {
+            display: flex; align-items: center; gap: 12px;
+            font-size: 32px; font-weight: 800; color: var(--dark-blue);
+            text-decoration: none; transition: all 0.4s ease;
+        }
+
+        .logo:hover { transform: scale(1.08) rotate(-2deg); }
+
+        .logo-icon {
+            width: 45px; height: 45px; background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: var(--white); font-size: 20px;
+            animation: float 4s ease-in-out infinite;
+            box-shadow: 0 10px 30px rgba(13, 148, 136, 0.3);
+        }
+
+        .nav-links {
+            display: flex; list-style: none; gap: 40px; align-items: center;
+        }
+
+        .nav-links li { position: relative; }
+
+        .nav-links a {
+            text-decoration: none; color: var(--text-dark); font-weight: 500;
+            font-size: 14px; text-transform: uppercase; letter-spacing: 1.5px;
+            position: relative; transition: all 0.3s ease; padding: 10px 0;
+            display: block;
+        }
+
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: 0; left: 0;
+            width: 0; height: 3px; background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 2px;
+        }
+
+        .nav-links a::before {
+            content: ''; position: absolute; top: -5px; left: 50%;
+            width: 6px; height: 6px; background: var(--primary);
+            border-radius: 50%; opacity: 0; transform: translateX(-50%);
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover { color: var(--primary); transform: translateY(-2px); }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a:hover::before { opacity: 1; top: -8px; }
+
+        .nav-links a.active { color: var(--primary); }
+        .nav-links a.active::after { width: 100%; }
+
+        .nav-icons {
+            display: flex; gap: 15px; align-items: center;
+        }
+
+        .nav-icon {
+            width: 45px; height: 45px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--text-dark); text-decoration: none;
+            position: relative; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--light-bg); font-size: 16px;
+        }
+
+        .nav-icon:hover {
+            background: var(--primary); color: var(--white);
+            transform: translateY(-5px) scale(1.1) rotate(10deg);
+            box-shadow: 0 10px 25px rgba(13, 148, 136, 0.4);
+        }
+
+        .cart-badge {
+            position: absolute; top: -5px; right: -5px;
+            background: linear-gradient(135deg, var(--accent), #f97316);
+            color: var(--white); width: 22px; height: 22px;
+            border-radius: 50%; font-size: 11px; font-weight: 700;
+            display: flex; align-items: center; justify-content: center;
+            animation: pulse 2s infinite;
+            border: 2px solid var(--white);
+        }
+
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none; flex-direction: column; gap: 6px;
+            cursor: pointer; padding: 8px; background: none; border: none;
+        }
+
+        .mobile-menu-btn span {
+            width: 28px; height: 3px; background: var(--text-dark);
+            transition: all 0.4s ease; border-radius: 3px;
+        }
+
+        .mobile-menu-btn.active span:nth-child(1) { transform: rotate(45deg) translate(6px, 6px); }
+        .mobile-menu-btn.active span:nth-child(2) { opacity: 0; transform: translateX(-20px); }
+        .mobile-menu-btn.active span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
+
+        /* ============================================
+           RESEARCH PAGE SPECIFIC STYLES
+           ============================================ */
+        
+        /* Hero Section */
+        .research-hero {
+            min-height: 70vh; position: relative; overflow: hidden;
+            display: flex; align-items: center;
+            background: linear-gradient(135deg, rgba(13, 148, 136, 0.95), rgba(30, 58, 95, 0.95));
+        }
+
+        .research-hero-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=1920&q=80') center/cover;
+            opacity: 0.2;
+        }
+
+        .research-hero-content {
+            max-width: 1400px; margin: 0 auto; padding: 100px 20px;
+            width: 100%; position: relative; z-index: 2;
+            text-align: center;
+        }
+
+        .research-hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            color: var(--white);
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .research-hero p {
+            color: rgba(255,255,255,0.9);
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .research-stats-bar {
+            display: flex; justify-content: center; gap: 60px;
+            margin-top: 60px;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .r-stat {
+            text-align: center;
+            color: var(--white);
+        }
+
+        .r-stat-number {
+            font-size: 42px; font-weight: 800; display: block;
+        }
+
+        .r-stat-label {
+            font-size: 14px; text-transform: uppercase; letter-spacing: 2px;
+            opacity: 0.8;
+        }
+
+        /* Section Headers */
+        .section-header {
+            text-align: center; max-width: 700px; margin: 0 auto 60px;
+        }
+
+        .section-label {
+            display: inline-flex; align-items: center; gap: 10px;
+            color: var(--primary); font-size: 14px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 3px; margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem); color: var(--dark-blue);
+            font-weight: 700; line-height: 1.2;
+        }
+
+        /* Current Projects Grid */
+        .projects-section {
+            padding: 100px 20px; background: var(--light-bg);
+        }
+
+        .projects-grid {
+            max-width: 1400px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            background: var(--white); padding: 40px 35px; border-radius: 25px;
+            position: relative; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+
+        .project-card::before {
+            content: ''; position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            opacity: 0; transition: opacity 0.5s ease; z-index: 0;
+        }
+
+        .project-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(13, 148, 136, 0.2);
+        }
+
+        .project-card:hover::before { opacity: 1; }
+
+        .project-card > * { position: relative; z-index: 2; }
+
+        .project-status {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(13, 148, 136, 0.1);
+            color: var(--primary);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            transition: all 0.4s ease;
+        }
+
+        .project-card:hover .project-status {
+            background: rgba(255,255,255,0.2);
+            color: var(--white);
+        }
+
+        .project-icon-wrap {
+            width: 80px; height: 80px; margin-bottom: 25px;
+            position: relative; transition: all 0.5s ease;
+        }
+
+        .project-icon {
+            width: 100%; height: 100%; display: flex; align-items: center;
+            justify-content: center; background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-radius: 20px; color: var(--white); font-size: 32px;
+            transition: all 0.5s ease;
+        }
+
+        .project-card:hover .project-icon {
+            background: var(--white); color: var(--primary);
+            transform: rotateY(360deg) scale(1.1);
+        }
+
+        .project-title {
+            font-size: 22px; font-weight: 700; color: var(--dark-blue);
+            margin-bottom: 15px; transition: all 0.4s ease;
+        }
+
+        .project-card:hover .project-title { color: var(--white); }
+
+        .project-desc {
+            color: var(--text-light); font-size: 15px; line-height: 1.7;
+            margin-bottom: 25px; transition: all 0.4s ease;
+        }
+
+        .project-card:hover .project-desc { color: rgba(255,255,255,0.9); }
+
+        .project-arrow {
+            position: absolute; bottom: 35px; right: 35px;
+            width: 50px; height: 50px; background: var(--light-bg);
+            border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; color: var(--primary); font-size: 18px;
+            transition: all 0.5s ease;
+        }
+
+        .project-card:hover .project-arrow {
+            background: var(--white); color: var(--primary);
+            transform: rotate(45deg) scale(1.15);
+        }
+
+        /* Publications Section */
+        .publications-section {
+            padding: 100px 20px; background: var(--white);
+        }
+
+        .pub-filters {
+            display: flex; justify-content: center; gap: 15px;
+            margin-bottom: 50px; flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 12px 30px; border: 2px solid var(--light-bg);
+            background: var(--white); color: var(--text-dark);
+            border-radius: 30px; cursor: pointer; font-weight: 600;
+            transition: all 0.3s ease; font-family: 'Poppins', sans-serif;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary); color: var(--white);
+            border-color: var(--primary); transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(13, 148, 136, 0.2);
+        }
+
+        .pub-list {
+            max-width: 1000px; margin: 0 auto;
+            display: flex; flex-direction: column; gap: 20px;
+        }
+
+        .pub-item {
+            display: flex; gap: 30px; padding: 30px;
+            background: var(--light-bg); border-radius: 20px;
+            transition: all 0.4s ease; align-items: center;
+            border-left: 5px solid transparent;
+        }
+
+        .pub-item:hover {
+            transform: translateX(10px);
+            border-left-color: var(--primary);
+            background: var(--white);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+        }
+
+        .pub-year {
+            font-size: 14px; color: var(--primary); font-weight: 700;
+            min-width: 60px;
+        }
+
+        .pub-content h4 {
+            font-size: 18px; color: var(--dark-blue); margin-bottom: 8px;
+        }
+
+        .pub-content p {
+            color: var(--text-light); font-size: 14px;
+        }
+
+        .pub-link {
+            margin-left: auto; color: var(--primary);
+            width: 45px; height: 45px; border-radius: 50%;
+            background: var(--white); display: flex; align-items: center;
+            justify-content: center; text-decoration: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .pub-item:hover .pub-link {
+            background: var(--primary); color: var(--white);
+            transform: rotate(45deg);
+        }
+
+        /* Facilities Section (Features Style) */
+        .facilities-section {
+            padding: 100px 20px; background: var(--light-bg);
+        }
+
+        .facilities-container {
+            max-width: 1400px; margin: 0 auto;
+            display: grid; grid-template-columns: 1fr 1.5fr 1fr;
+            gap: 50px; align-items: center;
+        }
+
+        .facility-col { display: flex; flex-direction: column; gap: 30px; }
+
+        .facility-box {
+            display: flex; gap: 20px; padding: 25px;
+            background: var(--white); border-radius: 20px;
+            transition: all 0.5s ease; cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .facility-box:hover {
+            transform: translateX(15px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        }
+
+        .facility-col-right .facility-box:hover { transform: translateX(-15px); }
+
+        .facility-icon {
+            width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-radius: 15px; display: flex; align-items: center; justify-content: center;
+            color: var(--white); font-size: 24px; flex-shrink: 0;
+            transition: all 0.5s ease;
+        }
+
+        .facility-box:hover .facility-icon {
+            transform: rotate(360deg) scale(1.1);
+            background: var(--dark-blue);
+        }
+
+        .facility-content h4 {
+            color: var(--dark-blue); font-size: 18px; margin-bottom: 8px;
+        }
+
+        .facility-content p {
+            color: var(--text-light); font-size: 14px; line-height: 1.6;
+        }
+
+        .facility-center {
+            position: relative; text-align: center;
+        }
+
+        .facility-image {
+            width: 100%; max-width: 600px; border-radius: 30px;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.15);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .facility-badge {
+            position: absolute; background: var(--white);
+            padding: 20px; border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            display: flex; align-items: center; gap: 15px;
+            animation: float 5s ease-in-out infinite;
+        }
+
+        .facility-badge.badge-1 { top: 10%; left: -20px; }
+        .facility-badge.badge-2 { bottom: 15%; right: -20px; animation-delay: 1s; }
+
+        .badge-icon {
+            width: 50px; height: 50px; background: linear-gradient(135deg, var(--accent), #f97316);
+            border-radius: 15px; display: flex; align-items: center; justify-content: center;
+            color: var(--white); font-size: 24px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 100px 20px; position: relative; overflow: hidden;
+            text-align: center;
+        }
+
+        .cta-section::before, .cta-section::after {
+            content: ''; position: absolute; border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .cta-section::before {
+            width: 500px; height: 500px; top: -250px; left: -250px;
+            animation: float 15s infinite;
+        }
+
+        .cta-section::after {
+            width: 400px; height: 400px; bottom: -200px; right: -200px;
+            animation: float 12s infinite reverse;
+        }
+
+        .cta-content {
+            position: relative; z-index: 1; max-width: 800px; margin: 0 auto;
+        }
+
+        .cta-content h2 {
+            color: var(--white); font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 20px;
+        }
+
+        .cta-content p {
+            color: rgba(255,255,255,0.9); font-size: 18px;
+            margin-bottom: 40px;
+        }
+
+        .btn-white {
+            background: var(--white); color: var(--primary);
+            padding: 18px 40px; border-radius: 35px; text-decoration: none;
+            font-weight: 600; font-size: 15px; display: inline-flex;
+            align-items: center; gap: 12px; transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .btn-white:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        /* ============================================
+           FOOTER (Exact Replica)
+           ============================================ */
+        footer {
+            background: var(--darker-blue); color: var(--white);
+            padding: 100px 20px 40px; position: relative;
+        }
+
+        .footer-grid {
+            max-width: 1400px; margin: 0 auto; display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr; gap: 50px;
+            margin-bottom: 80px;
+        }
+
+        .footer-brand .logo { color: var(--white); margin-bottom: 25px; }
+        .footer-brand > p {
+            color: rgba(255,255,255,0.7); line-height: 1.9;
+            margin-bottom: 30px; font-size: 15px;
+        }
+
+        .footer-social { display: flex; gap: 15px; }
+
+        .social-link {
+            width: 50px; height: 50px; border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: var(--white); text-decoration: none; transition: all 0.4s ease;
+            position: relative; overflow: hidden;
+        }
+
+        .social-link::before {
+            content: ''; position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%; background: var(--primary);
+            transform: scale(0); transition: transform 0.4s ease; border-radius: 50%;
+        }
+
+        .social-link:hover::before { transform: scale(1); }
+        .social-link:hover { border-color: var(--primary); transform: translateY(-5px); }
+        .social-link i { position: relative; z-index: 1; transition: all 0.4s ease; }
+        .social-link:hover i { transform: rotate(360deg); }
+
+        .footer-column h4 {
+            color: var(--white); font-size: 20px; margin-bottom: 30px;
+            display: flex; align-items: center; gap: 12px; font-weight: 600;
+        }
+
+        .footer-column h4::before {
+            content: ''; width: 8px; height: 8px;
+            background: var(--primary); border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .footer-column ul { list-style: none; }
+        .footer-column li { margin-bottom: 15px; }
+
+        .footer-column a {
+            color: rgba(255,255,255,0.7); text-decoration: none;
+            transition: all 0.4s ease; display: flex; align-items: center;
+            gap: 12px; font-size: 15px;
+        }
+
+        .footer-column a::before {
+            content: '\f054'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
+            font-size: 12px; color: var(--primary); opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .footer-column a:hover { color: var(--primary); padding-left: 15px; }
+        .footer-column a:hover::before { opacity: 1; }
+
+        .contact-list li {
+            display: flex; align-items: flex-start; gap: 15px;
+            color: rgba(255,255,255,0.7); margin-bottom: 20px;
+        }
+
+        .contact-list i {
+            color: var(--primary); margin-top: 5px; font-size: 18px; width: 25px;
+        }
+
+        .newsletter-form { margin-top: 25px; position: relative; }
+
+        .newsletter-form input {
+            width: 100%; padding: 18px 60px 18px 25px;
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px; color: var(--white); font-size: 15px;
+            transition: all 0.4s ease;
+        }
+
+        .newsletter-form input:focus {
+            outline: none; border-color: var(--primary);
+            background: rgba(255,255,255,0.1);
+        }
+
+        .newsletter-form input::placeholder { color: rgba(255,255,255,0.5); }
+
+        .newsletter-btn {
+            position: absolute; right: 5px; top: 50%; transform: translateY(-50%);
+            width: 50px; height: 50px; background: var(--primary);
+            border: none; border-radius: 12px; color: var(--white);
+            cursor: pointer; transition: all 0.4s ease; font-size: 18px;
+        }
+
+        .newsletter-btn:hover {
+            background: var(--primary-light); transform: translateY(-50%) scale(1.1);
+        }
+
+        .footer-bottom {
+            max-width: 1400px; margin: 0 auto;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 40px; display: flex;
+            justify-content: space-between; align-items: center; flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-bottom p { color: rgba(255,255,255,0.5); font-size: 14px; }
+
+        /* ============================================
+           RESPONSIVE STYLES (From Original Snippet)
+           ============================================ */
+        @media (max-width: 1200px) {
+            .facilities-container { grid-template-columns: 1fr; gap: 40px; }
+            .facility-col-left, .facility-col-right { order: 2; }
+            .facility-center { order: 1; }
+            .footer-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            /* Top Bar Mobile */
+            .top-bar-content { flex-direction: column; gap: 15px; padding: 15px; }
+            .top-bar-right { width: 100%; justify-content: center; flex-wrap: wrap; gap: 10px; }
+            
+            /* Mobile Navigation */
+            .mobile-menu-btn { display: flex; }
+            .nav-links {
+                position: fixed; top: 0; left: -100%; width: 85%; max-width: 320px;
+                height: 100vh; background: var(--white); flex-direction: column;
+                padding: 80px 30px 30px; transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: 5px 0 30px rgba(0,0,0,0.2); gap: 0; z-index: 999; overflow-y: auto;
+                align-items: flex-start;
+            }
+            .nav-links.active { left: 0; }
+            .nav-links li { width: 100%; border-bottom: 1px solid var(--light-bg); }
+            .nav-links a { padding: 18px 0; font-size: 16px; width: 100%; display: flex; justify-content: space-between; }
+            .nav-icons { display: none; }
+
+            /* Hero Mobile */
+            .research-hero h1 { font-size: 2rem; }
+            .research-stats-bar { flex-direction: column; gap: 30px; }
+
+            /* Projects Mobile */
+            .projects-grid { grid-template-columns: 1fr; }
+            
+            /* Publications Mobile */
+            .pub-item { flex-direction: column; align-items: flex-start; gap: 15px; }
+            .pub-link { margin-left: 0; }
+
+            /* Facilities Mobile */
+            .facility-box { flex-direction: column; text-align: center; }
+            .facility-icon { margin: 0 auto; }
+            .facility-badge { display: none; }
+
+            /* Footer Mobile */
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+            .footer-brand .logo { justify-content: center; }
+            .footer-social { justify-content: center; }
+            .footer-column h4 { justify-content: center; }
+            .footer-column a { justify-content: center; }
+            .contact-list li { justify-content: center; flex-direction: column; gap: 10px; }
+            .newsletter-form { max-width: 300px; margin: 20px auto 0; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+        }
+
+        @media (max-width: 480px) {
+            .research-hero h1 { font-size: 1.8rem; }
+            .filter-btn { padding: 10px 20px; font-size: 14px; }
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-content">
+            <div class="top-left">
+                <div class="phone-number">
+                    <i class="fas fa-phone-alt"></i>
+                    <span>(000) 1234 56789</span>
+                </div>
+                <div class="email-info">
+                    <i class="fas fa-envelope"></i>
+                    <span>contact@labtox.com</span>
+                </div>
+            </div>
+            <div class="top-bar-right">
+                
+                <a href="login.html" class="login-btn">
+                    <i class="fas fa-user"></i>
+                    <span>Login</span>
+                </a>
+                <a href="404.html" class="appointment-btn">Appointment</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+   <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo" style="display: flex; align-items: center; gap: 12px;">
+                <img src="logo.webp" alt="Stackly Logo" style="height: 55px; width: 50px; object-fit: contain;">
+                <span style="font-size: 28px; font-weight: 800; color: var(--dark-blue);">Stackly</span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="research.html" class="active">Research</a></li>
+                <li><a href="biosafe.html">Biosafety</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+
+            <div class="nav-icons">
+                <a href="404.html" class="nav-icon">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-badge">3</span>
+                </a>
+                <a href="404.html" class="nav-icon"><i class="fab fa-facebook-f"></i></a>
+                <a href="404.html" class="nav-icon"><i class="fab fa-twitter"></i></a>
+                <a href="404.html" class="nav-icon"><i class="fab fa-instagram"></i></a>
+                <a href="404.html" class="nav-icon"><i class="fas fa-search"></i></a>
+            </div>
+
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Research Hero Section -->
+    <section class="research-hero">
+        <div class="research-hero-bg"></div>
+        <div class="research-hero-content">
+            <div class="section-label" style="color: var(--white); justify-content: center; margin-bottom: 20px;">
+                <i class="fas fa-microscope"></i> Innovation Hub
+            </div>
+            <h1>Advancing Medical Research</h1>
+            <p>Pioneering breakthroughs in diagnostics, genomics, and biosafety to create a healthier tomorrow.</p>
+            
+            <div class="research-stats-bar">
+                <div class="r-stat">
+                    <span class="r-stat-number">150+</span>
+                    <span class="r-stat-label">Publications</span>
+                </div>
+                <div class="r-stat">
+                    <span class="r-stat-number">45</span>
+                    <span class="r-stat-label">Active Studies</span>
+                </div>
+                <div class="r-stat">
+                    <span class="r-stat-number">12</span>
+                    <span class="r-stat-label">Patents Filed</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Current Projects Section -->
+    <section class="projects-section">
+        <div class="section-header animate-on-scroll">
+            <div class="section-label"><i class="fas fa-bolt"></i> Current Projects</div>
+            <h2 class="section-title">Ongoing Research Initiatives</h2>
+        </div>
+
+        <div class="projects-grid">
+            <div class="project-card animate-on-scroll">
+                <div class="project-status">In Progress</div>
+                <div class="project-icon-wrap">
+                    <div class="project-icon"><i class="fas fa-dna"></i></div>
+                </div>
+                <h3 class="project-title">Genomic Sequencing Protocols</h3>
+                <p class="project-desc">Developing next-generation sequencing methods for early cancer detection with 99.9% accuracy rates.</p>
+                <div class="project-arrow"><i class="fas fa-arrow-right"></i></div>
+            </div>
+
+            <div class="project-card animate-on-scroll delay-100">
+                <div class="project-status">Recruiting</div>
+                <div class="project-icon-wrap">
+                    <div class="project-icon"><i class="fas fa-virus"></i></div>
+                </div>
+                <h3 class="project-title">Viral Pathogen Analysis</h3>
+                <p class="project-desc">Studying mutation patterns in RNA viruses to predict outbreak potential and vaccine efficacy.</p>
+                <div class="project-arrow"><i class="fas fa-arrow-right"></i></div>
+            </div>
+
+            <div class="project-card animate-on-scroll delay-200">
+                <div class="project-status">Data Analysis</div>
+                <div class="project-icon-wrap">
+                    <div class="project-icon"><i class="fas fa-brain"></i></div>
+                </div>
+                <h3 class="project-title">AI in Pathology</h3>
+                <p class="project-desc">Training deep learning models to assist pathologists in identifying cellular anomalies faster.</p>
+                <div class="project-arrow"><i class="fas fa-arrow-right"></i></div>
+            </div>
+
+            <div class="project-card animate-on-scroll">
+                <div class="project-status">Peer Review</div>
+                <div class="project-icon-wrap">
+                    <div class="project-icon"><i class="fas fa-pills"></i></div>
+                </div>
+                <h3 class="project-title">Pharmacogenomics</h3>
+                <p class="project-desc">Investigating how genetic makeup affects individual responses to drugs to enable personalized medicine.</p>
+                <div class="project-arrow"><i class="fas fa-arrow-right"></i></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Publications Section -->
+    <section class="publications-section">
+        <div class="section-header animate-on-scroll">
+            <div class="section-label"><i class="fas fa-book"></i> Knowledge Base</div>
+            <h2 class="section-title">Latest Publications</h2>
+        </div>
+
+        <div class="pub-filters animate-on-scroll">
+            <button class="filter-btn active" onclick="filterPubs('all')">All</button>
+            <button class="filter-btn" onclick="filterPubs('2024')">2024</button>
+            <button class="filter-btn" onclick="filterPubs('2023')">2023</button>
+            <button class="filter-btn" onclick="filterPubs('clinical')">Clinical</button>
+        </div>
+
+        <div class="pub-list" id="pubList">
+            <div class="pub-item animate-on-scroll" data-year="2024" data-cat="clinical">
+                <div class="pub-year">2024</div>
+                <div class="pub-content">
+                    <h4>Advanced Biomarkers in Early Stage Oncology</h4>
+                    <p>Journal of Medical Diagnostics • Vol. 45 • Dr. Sarah Johnson et al.</p>
+                </div>
+                <a href="404.html" class="pub-link"><i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="pub-item animate-on-scroll delay-100" data-year="2024" data-cat="research">
+                <div class="pub-year">2024</div>
+                <div class="pub-content">
+                    <h4>CRISPR Applications in Laboratory Settings</h4>
+                    <p>Genetic Engineering Today • Vol. 12 • Dr. Michael Chen</p>
+                </div>
+                <a href="404.html" class="pub-link"><i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="pub-item animate-on-scroll delay-200" data-year="2023" data-cat="clinical">
+                <div class="pub-year">2023</div>
+                <div class="pub-content">
+                    <h4>Statistical Analysis of Blood Sample Variations</h4>
+                    <p>Clinical Chemistry Review • Vol. 88 • Labtox Research Team</p>
+                </div>
+                <a href="404.html" class="pub-link"><i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="pub-item animate-on-scroll delay-300" data-year="2023" data-cat="research">
+                <div class="pub-year">2023</div>
+                <div class="pub-content">
+                    <h4>Microbiome Diversity in Urban Populations</h4>
+                    <p>Nature Microbiology • Vol. 9 • Dr. Emily Williams et al.</p>
+                </div>
+                <a href="404.html" class="pub-link"><i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Facilities Section -->
+    <section class="facilities-section">
+        <div class="section-header animate-on-scroll">
+            <div class="section-label"><i class="fas fa-building"></i> Infrastructure</div>
+            <h2 class="section-title">World-Class Facilities</h2>
+        </div>
+
+        <div class="facilities-container">
+            <div class="facility-col facility-col-left">
+                <div class="facility-box animate-on-scroll">
+                    <div class="facility-icon"><i class="fas fa-wind"></i></div>
+                    <div class="facility-content">
+                        <h4>Clean Room Labs</h4>
+                        <p>ISO 5 certified environments for sterile sample processing.</p>
+                    </div>
+                </div>
+                <div class="facility-box animate-on-scroll delay-100">
+                    <div class="facility-icon"><i class="fas fa-snowflake"></i></div>
+                    <div class="facility-content">
+                        <h4>Cryogenic Storage</h4>
+                        <p>-150°C storage facilities for long-term sample preservation.</p>
+                    </div>
+                </div>
+                <div class="facility-box animate-on-scroll delay-200">
+                    <div class="facility-icon"><i class="fas fa-shield-alt"></i></div>
+                    <div class="facility-content">
+                        <h4>BSL-3 Safety</h4>
+                        <p>Biosafety Level 3 labs for handling infectious agents.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="facility-center animate-on-scroll">
+                <img src="homeimg3.webp" alt="Lab Facility" class="facility-image">
+                <div class="facility-badge badge-1">
+                    <div class="badge-icon"><i class="fas fa-certificate"></i></div>
+                    <div>
+                        <h4 style="font-size: 16px; margin-bottom: 4px;">ISO 17025</h4>
+                        <p style="font-size: 13px; color: var(--text-light);">Certified</p>
+                    </div>
+                </div>
+                <div class="facility-badge badge-2">
+                    <div class="badge-icon"><i class="fas fa-award"></i></div>
+                    <div>
+                        <h4 style="font-size: 16px; margin-bottom: 4px;">Top Tier</h4>
+                        <p style="font-size: 13px; color: var(--text-light);">Facility</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="facility-col facility-col-right">
+                <div class="facility-box animate-on-scroll">
+                    <div class="facility-icon"><i class="fas fa-microscope"></i></div>
+                    <div class="facility-content">
+                        <h4>Electron Microscopy</h4>
+                        <p>High-resolution imaging for cellular structure analysis.</p>
+                    </div>
+                </div>
+                <div class="facility-box animate-on-scroll delay-100">
+                    <div class="facility-icon"><i class="fas fa-robot"></i></div>
+                    <div class="facility-content">
+                        <h4>Robotic Automation</h4>
+                        <p>Automated pipetting and sorting systems for high throughput.</p>
+                    </div>
+                </div>
+                <div class="facility-box animate-on-scroll delay-200">
+                    <div class="facility-icon"><i class="fas fa-database"></i></div>
+                    <div class="facility-content">
+                        <h4>Secure Data Center</h4>
+                        <p>HIPAA compliant cloud infrastructure for research data.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content animate-on-scroll">
+            <h2>Join Our Research Network</h2>
+            <p>Collaborate with leading scientists and institutions. Partner with us to drive innovation in healthcare.</p>
+            <a href="404.html" class="btn-white">Become a Partner <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+ <footer>
+        <div class="footer-grid">
+            <div class="footer-brand animate-on-scroll">
+                <a href="index.html" class="logo" style="display: flex; align-items: center; gap: 12px; margin-bottom: 25px;">
+                    <img src="logo.webp" alt="Stackly Logo" style="height: 45px; width: auto; object-fit: contain;">
+                    <span style="font-size: 28px; font-weight: 800; color: var(--white);">STACKLY</span>
+                </a>
+                <p>Leading the future of diagnostic medicine with precision, innovation, and care. Your health is our priority.</p>
+                <div class="footer-social">
+                    <a href="404.html" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="404.html" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="404.html" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="404.html" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="404.html" class="social-link"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-column animate-on-scroll delay-100">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="research.html">Research</a></li>
+                    <li><a href="biosafe.html">Biosafety</a></li>
+                     <li><a href="blog.html">Blog</a></li> 
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column animate-on-scroll delay-200">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="404.html">Diagnostic Testing</a></li>
+                    <li><a href="404.html">Genetic Testing</a></li>
+                    <li><a href="404.html">Research</a></li>
+                    <li><a href="404.html">Biosafety</a></li>
+                    <li><a href="404.html">Consultation</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column animate-on-scroll delay-300">
+                <h4>Contact Us</h4>
+                <ul class="contact-list">
+                    <li><i class="fas fa-map-marker-alt"></i> 5th Street, New York, USA</li>
+                    <li><i class="fas fa-envelope"></i> contact@labtox.com</li>
+                    <li><i class="fas fa-phone"></i> +91-234-567-8900</li>
+                </ul>
+            </div>
+
+            <div class="footer-column animate-on-scroll delay-400">
+                <h4>Newsletter</h4>
+                <p style="color: rgba(255,255,255,0.7); font-size: 14px; margin-bottom: 20px;">Subscribe for latest updates and health tips.</p>
+                <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Subscribed!');">
+                    <input type="email" placeholder="Your email address" required>
+                    <button type="submit" class="newsletter-btn"><i class="fas fa-arrow-right"></i></button>
+                </form>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>Copyright © 2024 All Rights Reserved | Labtox Made with <i class="fas fa-heart" style="color: var(--primary);"></i> by ThemeHt.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenuBtn.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenuBtn.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        
+
+        // Scroll Animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Publication Filtering
+        function filterPubs(filter) {
+            // Update buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Filter items
+            const items = document.querySelectorAll('.pub-item');
+            items.forEach(item => {
+                const year = item.getAttribute('data-year');
+                const cat = item.getAttribute('data-cat');
+                
+                if (filter === 'all' || year === filter || cat === filter) {
+                    item.style.display = 'flex';
+                    setTimeout(() => {
+                        item.style.opacity = '1';
+                        item.style.transform = 'translateY(0)';
+                    }, 50);
+                } else {
+                    item.style.opacity = '0';
+                    item.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        item.style.display = 'none';
+                    }, 300);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

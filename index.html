@@ -597,7 +597,7 @@
 
         .hero-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: url('https://images.unsplash.com/photo-1579154204601-01588f351e67?w=1920&q=80') center/cover;
+            background: url('heroimg.webp') center/cover;
             opacity: 0.3; animation: zoomIn 20s infinite alternate;
         }
 
@@ -1903,7 +1903,7 @@
 
         .contact-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: url('https://images.unsplash.com/photo-1576086213369-97a306d36557?w=1920&q=80') center/cover;
+            background: url('home1img.webp') center/cover;
             opacity: 0.1;
         }
 
@@ -2848,6 +2848,7 @@ body.menu-open {
 
         
     </style>
+<base target="_blank">
 </head>
 <body>
     <!-- Page Loader -->
@@ -2875,24 +2876,12 @@ body.menu-open {
                 </div>
             </div>
             <div class="top-bar-right">
-                <div class="language-selector">
-                    <button class="lang-btn" onclick="toggleLang()">
-                        <i class="fas fa-globe"></i>
-                        <span>EN</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="lang-dropdown" id="langDropdown">
-                        <div class="lang-option" onclick="selectLang('EN')">English</div>
-                        <div class="lang-option" onclick="selectLang('ES')">Español</div>
-                        <div class="lang-option" onclick="selectLang('FR')">Français</div>
-                        <div class="lang-option" onclick="selectLang('DE')">Deutsch</div>
-                    </div>
-                </div>
-                <a href="#" class="login-btn" onclick="openLoginModal(event)">
+                
+                 <a href="login.html" class="login-btn">
                     <i class="fas fa-user"></i>
                     <span>Login</span>
                 </a>
-                <a href="#contact" class="appointment-btn">Appointment</a>
+                <a href="404.html" class="appointment-btn">Appointment</a>
             </div>
         </div>
     </div>
@@ -2900,18 +2889,16 @@ body.menu-open {
     <!-- Navigation -->
     <nav>
         <div class="nav-container">
-            <a href="#" class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-flask"></i>
-                </div>
-                Labtox
+            <a href="index.html" class="logo" style="display: flex; align-items: center; gap: 12px;">
+                <img src="logo.webp" alt="Stackly Logo" style="height: 55px; width: 50px; object-fit: contain;">
+                <span style="font-size: 28px; font-weight: 800; color: var(--dark-blue);">Stackly</span>
             </a>
             
             <ul class="nav-links" id="navLinks">
                 <li>
-                    <a href="#home">Home</a>
+                    <a href="index.html">Home</a>
                 </li>
-                <!-- <li>
+                 <!-- <li>
                     <a href="#pages">Pages <i class="fas fa-chevron-down" style="font-size: 10px;"></i></a>
                     <div class="dropdown">
                         <a href="#"><i class="fas fa-info-circle"></i> About Us</a>
@@ -2928,23 +2915,23 @@ body.menu-open {
                         <a href="#"><i class="fas fa-microscope"></i> Research</a>
                         <a href="#"><i class="fas fa-shield-alt"></i> Biosafety</a>
                     </div>
-                </li> -->
-                <li><a href="#research">Research</a></li>
-                <li><a href="#shop">Biosafety</a></li>
-                <li><a href="#blog">Blog</a></li>
-                <li><a href="#contact">Contact Us</a></li>
+                </li>  -->
+                <li><a href="research.html">Research</a></li>
+                <li><a href="biosafe.html">Biosafety</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
             </ul>
 
             <div class="nav-icons">
-                <a href="#" class="nav-icon">
+                <a href="404.html" class="nav-icon">
                     <i class="fas fa-shopping-bag"></i>
                     <span class="cart-badge">3</span>
                 </a>
-                <a href="#" class="nav-icon"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="nav-icon"><i class="fab fa-twitter"></i></a>
-                <a href="#" class="nav-icon"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="nav-icon"><i class="fas fa-search"></i></a>
-                <a href="#" class="nav-icon"><i class="fas fa-th-large"></i></a>
+                <a href="404.html" class="nav-icon"><i class="fab fa-facebook-f"></i></a>
+                <a href="404.html" class="nav-icon"><i class="fab fa-twitter"></i></a>
+                <a href="404.html" class="nav-icon"><i class="fab fa-instagram"></i></a>
+                <a href="404.html" class="nav-icon"><i class="fas fa-search"></i></a>
+                <a href="404.html" class="nav-icon"><i class="fas fa-th-large"></i></a>
             </div>
 
             <button class="mobile-menu-btn" id="mobileMenuBtn">
@@ -2973,10 +2960,10 @@ body.menu-open {
                     Experience cutting-edge diagnostic solutions with our state-of-the-art laboratory facilities. We deliver accurate results with unmatched precision and care.
                 </p>
                 <div class="hero-buttons">
-                    <a href="#services" class="btn-primary">
+                    <a href="404.html" class="btn-primary">
                         Explore Services <i class="fas fa-arrow-right"></i>
                     </a>
-                    <a href="#contact" class="btn-secondary">
+                    <a href="404.html" class="btn-secondary">
                         <i class="fas fa-play-circle"></i> Watch Video
                     </a>
                 </div>
@@ -2996,7 +2983,7 @@ body.menu-open {
                 </div>
             </div>
             <div class="hero-right">
-                <img src="https://images.unsplash.com/photo-1579154204601-01588f351e67?w=800&q=80" alt="Scientist" class="hero-image-main">
+                <img src="" alt="Scientist" class="hero-image-main">
                 <div class="floating-card card-1">
                     <div class="floating-icon"><i class="fas fa-check-circle"></i></div>
                     <div class="floating-content">
@@ -3152,7 +3139,7 @@ body.menu-open {
             </div>
 
             <div class="feature-center">
-                <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?w=600&q=80" alt="Microscope" class="feature-image">
+                <img src="homeimg3.webp" alt="Microscope" class="feature-image">
                 <div class="feature-badge badge-1">
                     <div class="badge-icon"><i class="fas fa-star"></i></div>
                     <div>
@@ -3234,13 +3221,13 @@ body.menu-open {
                     </div>
                 </div>
                 
-                <a href="#" class="btn-primary" style="margin-top: 20px;">
+                <a href="404.html" class="btn-primary" style="margin-top: 20px;">
                     About Us <i class="fas fa-arrow-right"></i>
                 </a>
             </div>
 
             <div class="lab-detail-image">
-                <img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=800&q=80" alt="Lab Equipment" class="detail-img">
+                <img src="home2img.webp" alt="Lab Equipment" class="detail-img">
                 <div class="experience-badge">
                     <span class="exp-number">25+</span>
                     <span class="exp-text">Years Experience</span>
@@ -3272,7 +3259,7 @@ body.menu-open {
                     </div>
                 </div>
                 <div class="data-image animate-on-scroll">
-                    <img src="https://images.unsplash.com/photo-1576086213369-97a306d36557?w=800&q=80" alt="Lab Research">
+                    <img src="home1img.webp" alt="Lab Research">
                     <div class="data-stats">
                         <div class="data-stat">
                             <span class="data-stat-number">98%</span>
@@ -3310,7 +3297,7 @@ body.menu-open {
                     </div>
                 </div>
                 <div class="data-image animate-on-scroll">
-                    <img src="https://images.unsplash.com/photo-1579154204601-01588f351e67?w=800&q=80" alt="DNA Research">
+                    <img src="homeimg3.webp" alt="DNA Research">
                     <div class="data-stats">
                         <div class="data-stat">
                             <span class="data-stat-number">100+</span>
@@ -3436,32 +3423,32 @@ body.menu-open {
             
             <div class="case-grid">
                 <div class="case-card animate-on-scroll">
-                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80" alt="Biochemistry">
+                    <img src="hum1.webp" alt="Biochemistry">
                     <div class="case-overlay">
                         <div class="case-category">Biochemistry</div>
                         <div class="case-title">Personnel Competence</div>
                         <p class="case-desc">Advanced training programs for laboratory staff ensuring highest quality standards.</p>
-                        <div class="case-arrow"><i class="fas fa-arrow-right"></i></div>
+                     <a href="404.html">  <div class="case-arrow"><i class="fas fa-arrow-right"></i></div></a> 
                     </div>
                 </div>
 
                 <div class="case-card animate-on-scroll delay-100">
-                    <img src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=600&q=80" alt="Biosafety">
+                    <img src="hum2.webp" alt="Biosafety">
                     <div class="case-overlay">
                         <div class="case-category">Biosafety</div>
                         <div class="case-title">Blood Bank & Chemistry</div>
                         <p class="case-desc">Revolutionary approaches to blood screening and chemical analysis protocols.</p>
-                        <div class="case-arrow"><i class="fas fa-arrow-right"></i></div>
+                    <a href="404.html">    <div class="case-arrow"><i class="fas fa-arrow-right"></i></div></a>
                     </div>
                 </div>
 
                 <div class="case-card animate-on-scroll delay-200">
-                    <img src="https://images.unsplash.com/photo-1579154204601-01588f351e67?w=600&q=80" alt="Clinical Research">
+                    <img src="hum5.webp" alt="Clinical Research">
                     <div class="case-overlay">
                         <div class="case-category">Clinical Research</div>
                         <div class="case-title">Innovating to End Malaria</div>
                         <p class="case-desc">Breakthrough research in tropical disease diagnostics and prevention strategies.</p>
-                        <div class="case-arrow"><i class="fas fa-arrow-right"></i></div>
+                     <a href="404.html">  <div class="case-arrow"><i class="fas fa-arrow-right"></i></div></a> 
                     </div>
                 </div>
             </div>
@@ -3480,11 +3467,11 @@ body.menu-open {
             <div class="team-grid">
                 <div class="team-card animate-on-scroll">
                     <div class="team-image">
-                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80" alt="Dr. Smith">
+                        <img src="hum7.webp" alt="Dr. Smith">
                         <div class="team-social">
-                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fas fa-envelope"></i></a>
+                            <a href="404.html"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="404.html"><i class="fab fa-twitter"></i></a>
+                            <a href="404.html"><i class="fas fa-envelope"></i></a>
                         </div>
                     </div>
                     <div class="team-info">
@@ -3495,11 +3482,11 @@ body.menu-open {
 
                 <div class="team-card animate-on-scroll delay-100">
                     <div class="team-image">
-                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80" alt="Dr. Johnson">
+                        <img src="hum5.webp" alt="Dr. Johnson">
                         <div class="team-social">
-                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fas fa-envelope"></i></a>
+                            <a href="404.html"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="404.html"><i class="fab fa-twitter"></i></a>
+                            <a href="404.html"><i class="fas fa-envelope"></i></a>
                         </div>
                     </div>
                     <div class="team-info">
@@ -3510,11 +3497,11 @@ body.menu-open {
 
                 <div class="team-card animate-on-scroll delay-200">
                     <div class="team-image">
-                        <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&q=80" alt="Dr. Chen">
+                        <img src="hum1.webp" alt="Dr. Chen">
                         <div class="team-social">
-                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fas fa-envelope"></i></a>
+                            <a href="404.html"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="404.html"><i class="fab fa-twitter"></i></a>
+                            <a href="404.html"><i class="fas fa-envelope"></i></a>
                         </div>
                     </div>
                     <div class="team-info">
@@ -3525,11 +3512,11 @@ body.menu-open {
 
                 <div class="team-card animate-on-scroll delay-300">
                     <div class="team-image">
-                        <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&q=80" alt="Dr. Williams">
+                        <img src="hum2.webp" alt="Dr. Williams">
                         <div class="team-social">
-                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fas fa-envelope"></i></a>
+                            <a href="404.html"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="404.html"><i class="fab fa-twitter"></i></a>
+                            <a href="404.html"><i class="fas fa-envelope"></i></a>
                         </div>
                     </div>
                     <div class="team-info">
@@ -3558,7 +3545,7 @@ body.menu-open {
                         "Labtox has completely transformed our diagnostic capabilities. Their accuracy and speed are unmatched in the industry. The team's dedication to quality and patient care is evident in every interaction."
                     </p>
                     <div class="testimonial-author">
-                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&q=80" alt="Simon Amour" class="author-img">
+                        <img src="hum5.webp" alt="Simon Amour" class="author-img">
                         <div class="author-info">
                             <h4>Simon Amour</h4>
                             <p>Technical Director, MediCare Plus</p>
@@ -3621,7 +3608,7 @@ body.menu-open {
                         <li class="not-included">Priority Processing</li>
                         <li class="not-included">Home Collection</li>
                     </ul>
-                    <button class="pricing-btn">Get Started</button>
+                <a href="404.html">    <button class="pricing-btn">Get Started</button></a>
                 </div>
 
                 <div class="pricing-card featured animate-on-scroll delay-100">
@@ -3637,7 +3624,7 @@ body.menu-open {
                         <li class="included">Priority Processing</li>
                         <li class="not-included">Home Collection</li>
                     </ul>
-                    <button class="pricing-btn">Get Started</button>
+                 <a href="404.html">   <button class="pricing-btn">Get Started</button></a>
                 </div>
 
                 <div class="pricing-card animate-on-scroll delay-200">
@@ -3652,7 +3639,7 @@ body.menu-open {
                         <li class="included">Priority Processing</li>
                         <li class="included">Home Collection</li>
                     </ul>
-                    <button class="pricing-btn">Contact Sales</button>
+                 <a href="404.html">   <button class="pricing-btn">Contact Sales</button></a>
                 </div>
             </div>
         </div>
@@ -3733,7 +3720,7 @@ body.menu-open {
             <div class="blog-grid">
                 <article class="blog-card animate-on-scroll">
                     <div class="blog-image">
-                        <img src="https://images.unsplash.com/photo-1576086213369-97a306d36557?w=600&q=80" alt="Blog 1">
+                        <img src="hum1.webp" alt="Blog 1">
                         <div class="blog-date">
                             <span class="day">15</span>
                             <span class="month">Mar</span>
@@ -3745,13 +3732,13 @@ body.menu-open {
                             <span><i class="fas fa-folder"></i> Research</span>
                         </div>
                         <h3 class="blog-title">Breakthrough in Cancer Detection Technology</h3>
-                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                        <a href="404.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </article>
 
                 <article class="blog-card animate-on-scroll delay-100">
                     <div class="blog-image">
-                        <img src="https://images.unsplash.com/photo-1579154204601-01588f351e67?w=600&q=80" alt="Blog 2">
+                        <img src="hum2.webp" alt="Blog 2">
                         <div class="blog-date">
                             <span class="day">12</span>
                             <span class="month">Mar</span>
@@ -3763,13 +3750,13 @@ body.menu-open {
                             <span><i class="fas fa-folder"></i> Health Tips</span>
                         </div>
                         <h3 class="blog-title">10 Essential Health Checkups for Adults</h3>
-                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                        <a href="404.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </article>
 
                 <article class="blog-card animate-on-scroll delay-200">
                     <div class="blog-image">
-                        <img src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=600&q=80" alt="Blog 3">
+                        <img src="hum7.webp" alt="Blog 3">
                         <div class="blog-date">
                             <span class="day">08</span>
                             <span class="month">Mar</span>
@@ -3781,7 +3768,7 @@ body.menu-open {
                             <span><i class="fas fa-folder"></i> Technology</span>
                         </div>
                         <h3 class="blog-title">AI in Modern Laboratory Diagnostics</h3>
-                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                        <a href="404.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </article>
             </div>
@@ -3863,39 +3850,40 @@ body.menu-open {
     <footer>
         <div class="footer-grid">
             <div class="footer-brand animate-on-scroll">
-                <a href="#" class="logo">
-                    <div class="logo-icon"><i class="fas fa-flask"></i></div>
-                    Labtox
+                <a href="index.html" class="logo" style="display: flex; align-items: center; gap: 12px; margin-bottom: 25px;">
+                    <img src="logo.webp" alt="Stackly Logo" style="height: 45px; width: auto; object-fit: contain;">
+                    <span style="font-size: 28px; font-weight: 800; color: var(--white);">STACKLY</span>
                 </a>
                 <p>Leading the future of diagnostic medicine with precision, innovation, and care. Your health is our priority.</p>
                 <div class="footer-social">
-                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    <a href="404.html" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="404.html" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="404.html" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="404.html" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="404.html" class="social-link"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
 
             <div class="footer-column animate-on-scroll delay-100">
                 <h4>Quick Links</h4>
                 <ul>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Our Team</a></li>
-                    <li><a href="#">Services</a></li>
-                    <li><a href="#">Case Studies</a></li>
-                    <li><a href="#">Contact</a></li>
+
+                    <li><a href="index.html">Home</a></li>   
+                    <li><a href="404.html">Research</a></li>
+                    <li><a href="biosafe.html">Biosafety</a></li>
+                    <li><a href="404.html">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
                 </ul>
             </div>
 
             <div class="footer-column animate-on-scroll delay-200">
                 <h4>Services</h4>
                 <ul>
-                    <li><a href="#">Diagnostic Testing</a></li>
-                    <li><a href="#">Genetic Testing</a></li>
-                    <li><a href="#">Research</a></li>
-                    <li><a href="#">Biosafety</a></li>
-                    <li><a href="#">Consultation</a></li>
+                    <li><a href="404.html">Diagnostic Testing</a></li>
+                    <li><a href="404.html">Genetic Testing</a></li>
+                    <li><a href="404.html">Research</a></li>
+                    <li><a href="404.html">Biosafety</a></li>
+                    <li><a href="404.html">Consultation</a></li>
                 </ul>
             </div>
 
@@ -3959,7 +3947,7 @@ body.menu-open {
                     <label class="remember-me">
                         <input type="checkbox"> Remember me
                     </label>
-                    <a href="#" class="forgot-password">Forgot Password?</a>
+                    <a href="404.html" class="forgot-password">Forgot Password?</a>
                 </div>
                 <button type="submit" class="login-submit">Sign In</button>
             </form>
@@ -4032,22 +4020,7 @@ body.menu-open {
             });
         });
 
-        // Language Selector
-        function toggleLang() {
-            document.getElementById('langDropdown').classList.toggle('active');
-        }
-
-        function selectLang(lang) {
-            document.querySelector('.lang-btn span').textContent = lang;
-            document.getElementById('langDropdown').classList.remove('active');
-        }
-
-        // Close dropdowns when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.language-selector')) {
-                document.getElementById('langDropdown').classList.remove('active');
-            }
-        });
+        
 
         // Scroll Animations
         const observerOptions = {
@@ -4279,31 +4252,6 @@ document.body.appendChild(overlay);
 
 // Update mobile menu toggle is already handled by toggleMobileMenu() above.
 // No additional click handler is required here.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    </script>
+ </script>
 </body>
 </html>
