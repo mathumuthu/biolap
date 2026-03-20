@@ -100,13 +100,18 @@
         .brand-logo {
             width: 44px;
             height: 44px;
-            background: var(--gradient-primary);
             border-radius: var(--radius);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 1.5rem;
+            overflow: hidden;
+            background: none;
+        }
+
+        .brand-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .brand-info h2 {
@@ -184,7 +189,7 @@
             color: white;
             font-size: 0.75rem;
             padding: 0.25rem 0.625rem;
-            border-radius: var(--radius-full);
+            border-radius: 9999px;
             font-weight: 600;
         }
 
@@ -256,7 +261,7 @@
             width: 100%;
             padding: 0.75rem 1rem 0.75rem 2.75rem;
             border: 1px solid var(--gray-200);
-            border-radius: var(--radius-full);
+            border-radius: 9999px;
             background: var(--gray-50);
             font-size: 0.9375rem;
             transition: all 0.2s;
@@ -354,12 +359,19 @@
         .mobile-brand-icon {
             width: 40px;
             height: 40px;
-            background: rgba(255,255,255,0.2);
             border-radius: var(--radius);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            overflow: hidden;
+            background: none;
+        }
+
+        .mobile-brand-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
         }
 
         .mobile-brand-text h1 {
@@ -436,7 +448,7 @@
             font-weight: 600;
             padding: 0.375rem 0.875rem;
             background: rgba(255,255,255,0.2);
-            border-radius: var(--radius-full);
+            border-radius: 9999px;
         }
 
         .status-badge::before {
@@ -650,7 +662,7 @@
             padding: 0.5rem 1rem;
             background: rgba(5, 150, 105, 0.1);
             color: var(--primary);
-            border-radius: var(--radius-full);
+            border-radius: 9999px;
             font-size: 0.875rem;
             font-weight: 600;
         }
@@ -834,7 +846,7 @@
             font-size: 0.875rem;
             font-weight: 600;
             padding: 0.375rem 1rem;
-            border-radius: var(--radius-full);
+            border-radius: 9999px;
             display: inline-block;
         }
 
@@ -904,7 +916,7 @@
             color: var(--primary);
             background: rgba(5, 150, 105, 0.1);
             padding: 0.5rem 1rem;
-            border-radius: var(--radius-full);
+            border-radius: 9999px;
         }
 
         .time-pill.taken {
@@ -1103,9 +1115,12 @@
         <!-- Sidebar -->
         <aside class="desktop-sidebar">
             <div class="sidebar-brand">
-                <div class="brand-logo">🏥</div>
+                <!-- 🔄 REPLACE THIS URL WITH YOUR LOGO -->
+                <div class="brand-logo">
+                    <img src="logo.webp" alt="HealthHub Logo">
+                </div>
                 <div class="brand-info">
-                    <h2>HealthHub</h2>
+                    <h2>Stackly</h2>
                     <span>Patient Portal</span>
                 </div>
             </div>
@@ -1115,26 +1130,26 @@
                     <div class="nav-section-title">Main Menu</div>
                     <ul class="nav-list">
                         <li class="nav-item">
-                            <a href="#" class="nav-link active">
+                            <a href="404.html" class="nav-link active">
                                 <i>🏠</i>
                                 <span>Dashboard</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="404.html" class="nav-link">
                                 <i>📅</i>
                                 <span>Appointments</span>
                                 <span class="nav-badge">3</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="404.html" class="nav-link">
                                 <i>💊</i>
                                 <span>Medications</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="404.html" class="nav-link">
                                 <i>📋</i>
                                 <span>Lab Results</span>
                             </a>
@@ -1146,19 +1161,19 @@
                     <div class="nav-section-title">Health Records</div>
                     <ul class="nav-list">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="404.html" class="nav-link">
                                 <i>📊</i>
                                 <span>Vital Signs</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="404.html" class="nav-link">
                                 <i>📄</i>
                                 <span>Documents</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="404.html" class="nav-link">
                                 <i>💬</i>
                                 <span>Messages</span>
                                 <span class="nav-badge">5</span>
@@ -1405,7 +1420,10 @@
         <header class="mobile-header">
             <div class="mobile-header-top">
                 <div class="mobile-brand">
-                    <div class="mobile-brand-icon">🏥</div>
+                    <!-- 🔄 REPLACE THIS URL WITH YOUR LOGO -->
+                    <div class="mobile-brand-icon">
+                        <img src="l" alt="HealthHub Logo">
+                    </div>
                     <div class="mobile-brand-text">
                         <h1>HealthHub</h1>
                         <span>Patient Portal</span>
@@ -1566,7 +1584,7 @@
             <!-- Lab Results -->
             <div class="section-header">
                 <h2 class="section-title">🔬 Recent Labs</h2>
-                <a href="#" class="view-all">Details →</a>
+                <a href="404.html" class="view-all">Details →</a>
             </div>
             
             <div class="card">
@@ -1613,23 +1631,23 @@
 
         <!-- Bottom Navigation -->
         <nav class="mobile-bottom-nav">
-            <a href="#" class="mobile-nav-item active">
+            <a href="404.html" class="mobile-nav-item active">
                 <i>🏠</i>
                 <span>Home</span>
             </a>
-            <a href="#" class="mobile-nav-item">
+            <a href="404.html" class="mobile-nav-item">
                 <i>📅</i>
                 <span>Visits</span>
             </a>
-            <a href="#" class="mobile-nav-item">
+            <a href="404.html" class="mobile-nav-item">
                 <i>💊</i>
                 <span>Meds</span>
             </a>
-            <a href="#" class="mobile-nav-item">
+            <a href="404.html" class="mobile-nav-item">
                 <i>💬</i>
                 <span>Chat</span>
             </a>
-            <a href="#" class="mobile-nav-item">
+            <a href="404.html" class="mobile-nav-item">
                 <i>👤</i>
                 <span>Profile</span>
             </a>
