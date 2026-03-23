@@ -2,2069 +2,1141 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#6366f1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <title>Research Portal - Academic Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BioTech Labs - Researcher Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --primary-light: #818cf8;
-            --secondary: #ec4899;
-            --accent: #f59e0b;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --info: #3b82f6;
-            
-            --dark: #0f172a;
-            --dark-light: #1e293b;
-            --dark-lighter: #334155;
-            --gray-100: #f1f5f9;
-            --gray-200: #e2e8f0;
-            --gray-300: #cbd5e1;
-            --gray-400: #94a3b8;
-            --gray-500: #64748b;
-            --gray-600: #475569;
-            
-            --white: #ffffff;
-            --bg: #f8fafc;
-            
-            --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            --gradient-accent: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
-            --gradient-dark: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            --shadow-md: 0 6px 12px -2px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            
-            --radius-sm: 8px;
-            --radius: 12px;
-            --radius-lg: 16px;
-            --radius-xl: 24px;
-            
-            --safe-top: env(safe-area-inset-top);
-            --safe-bottom: env(safe-area-inset-bottom);
-            --safe-left: env(safe-area-inset-left);
-            --safe-right: env(safe-area-inset-right);
-        }
-
-        html {
-            scroll-behavior: smooth;
-            -webkit-text-size-adjust: 100%;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg);
-            color: var(--dark);
-            line-height: 1.6;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* Animated Background */
-        .bg-pattern {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.4;
-            background-image: 
-                radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.06) 0%, transparent 50%),
-                radial-gradient(circle at 40% 20%, rgba(16, 185, 129, 0.06) 0%, transparent 50%);
-            animation: bgFloat 15s ease-in-out infinite;
-        }
-
-        @keyframes bgFloat {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(-20px, 20px); }
-        }
-
-        /* Grid Pattern Overlay */
-        .grid-pattern {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.03;
-            background-image: 
-                linear-gradient(rgba(99, 102, 241, 0.5) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(99, 102, 241, 0.5) 1px, transparent 1px);
-            background-size: 50px 50px;
-        }
-
-        /* Layout */
-        .app-container {
-            display: flex;
-            min-height: 100vh;
-            min-height: 100dvh;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            width: 260px;
-            background: var(--white);
-            border-right: 1px solid var(--gray-200);
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            height: 100vh;
-            height: 100dvh;
-            z-index: 1000;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow-y: auto;
-            overflow-x: hidden;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .sidebar-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid var(--gray-200);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            position: sticky;
-            top: 0;
-            background: var(--white);
-            z-index: 10;
-        }
-
-        .brand-icon {
-            width: 42px;
-            height: 42px;
-            background: var(--gradient-primary);
-            border-radius: var(--radius);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-            box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
-            animation: pulse-glow 2s infinite;
-            flex-shrink: 0;
-        }
-
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
-            50% { box-shadow: 0 0 0 15px rgba(99, 102, 241, 0); }
-        }
-
-        .brand-text h1 {
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: var(--dark);
-            letter-spacing: -0.5px;
-            line-height: 1.2;
-        }
-
-        .brand-text span {
-            font-size: 0.7rem;
-            color: var(--gray-500);
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-
-        .sidebar-nav {
-            flex: 1;
-            padding: 1rem;
-        }
-
-        .nav-section {
-            margin-bottom: 1.5rem;
-        }
-
-        .nav-section-title {
-            font-size: 0.65rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--gray-400);
-            padding: 0 0.75rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .nav-menu {
-            list-style: none;
-        }
-
-        .nav-item {
-            margin-bottom: 0.25rem;
-        }
-
-        .nav-link {
-            display: flex;
-            align-items: center;
-            gap: 0.875rem;
-            padding: 0.875rem;
-            color: var(--gray-600);
-            text-decoration: none;
-            border-radius: var(--radius);
-            transition: all 0.2s ease;
-            font-size: 0.9rem;
-            font-weight: 500;
-            position: relative;
-            min-height: 44px;
-        }
-
-        .nav-link:hover, .nav-link.active {
-            background: var(--gray-100);
-            color: var(--primary);
-        }
-
-        .nav-link.active {
-            background: rgba(99, 102, 241, 0.1);
-            font-weight: 600;
-        }
-
-        .nav-link i {
-            width: 24px;
-            text-align: center;
-            font-size: 1.1rem;
-            font-style: normal;
-        }
-
-        .nav-badge {
-            margin-left: auto;
-            background: var(--primary);
-            color: white;
-            font-size: 0.7rem;
-            padding: 0.125rem 0.5rem;
-            border-radius: 9999px;
-            font-weight: 600;
-        }
-
-        .sidebar-footer {
-            padding: 1rem;
-            border-top: 1px solid var(--gray-200);
-            position: sticky;
-            bottom: 0;
-            background: var(--white);
-        }
-
-        .upgrade-card {
-            background: var(--gradient-primary);
-            border-radius: var(--radius-lg);
-            padding: 1.25rem;
-            color: white;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .upgrade-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
-        }
-
-        .upgrade-text {
-            font-size: 0.875rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .upgrade-subtext {
-            font-size: 0.75rem;
-            opacity: 0.9;
-            margin-bottom: 0.75rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .upgrade-btn {
-            background: white;
-            color: var(--primary);
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: var(--radius);
-            font-size: 0.8rem;
-            font-weight: 600;
-            cursor: pointer;
-            position: relative;
-            z-index: 1;
-            transition: transform 0.2s;
-        }
-
-        .upgrade-btn:active {
-            transform: scale(0.95);
-        }
-
-        /* Main Content */
-        .main-content {
-            flex: 1;
-            margin-left: 260px;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            min-height: 100dvh;
-            width: calc(100% - 260px);
-        }
-
-        /* Top Header */
-        .top-header {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--gray-200);
-            padding: 1rem 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            gap: 1rem;
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            flex: 1;
-        }
-
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--dark);
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: var(--radius);
-            transition: all 0.2s;
-            min-width: 44px;
-            min-height: 44px;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .menu-toggle:hover {
-            background: var(--gray-100);
-        }
-
-        .search-container {
-            position: relative;
-            max-width: 400px;
-            width: 100%;
-        }
-
-        .search-box {
-            width: 100%;
-            padding: 0.75rem 1rem 0.75rem 2.75rem;
-            border: 1px solid var(--gray-200);
-            border-radius: var(--radius-xl);
-            font-size: 0.9rem;
-            transition: all 0.2s;
-            background: var(--gray-100);
-            min-height: 44px;
-        }
-
-        .search-box:focus {
-            outline: none;
-            border-color: var(--primary);
-            background: white;
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--gray-400);
-            font-size: 1.1rem;
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .header-btn {
-            width: 44px;
-            height: 44px;
-            border: 1px solid var(--gray-200);
-            background: white;
-            border-radius: var(--radius);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            position: relative;
-            transition: all 0.2s;
-            font-size: 1.25rem;
-            flex-shrink: 0;
-        }
-
-        .header-btn:hover {
-            border-color: var(--primary);
-            background: rgba(99, 102, 241, 0.05);
-            transform: translateY(-2px);
-        }
-
-        .notification-pulse {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            width: 8px;
-            height: 8px;
-            background: var(--danger);
-            border-radius: 50%;
-            border: 2px solid white;
-            animation: pulse-dot 2s infinite;
-        }
-
-        @keyframes pulse-dot {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.2); }
-        }
-
-        .user-dropdown {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.375rem 0.75rem 0.375rem 0.375rem;
-            border: 1px solid var(--gray-200);
-            border-radius: var(--radius-xl);
-            cursor: pointer;
-            transition: all 0.2s;
-            background: white;
-            min-height: 44px;
-        }
-
-        .user-dropdown:hover {
-            border-color: var(--primary);
-            box-shadow: var(--shadow);
-        }
-
-        .user-avatar {
-            width: 34px;
-            height: 34px;
-            background: var(--gradient-primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            font-size: 0.875rem;
-            flex-shrink: 0;
-        }
-
-        .user-details {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .user-name {
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--dark);
-        }
-
-        .user-role {
-            font-size: 0.75rem;
-            color: var(--gray-500);
-        }
-
-        /* Dashboard Content */
-        .dashboard-content {
-            flex: 1;
-            padding: 2rem;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .page-header {
-            margin-bottom: 2rem;
-            animation: fadeInDown 0.6s ease;
-        }
-
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .page-title {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--dark);
-            margin-bottom: 0.5rem;
-            line-height: 1.2;
-        }
-
-        .page-subtitle {
-            color: var(--gray-500);
-            font-size: 1rem;
-            max-width: 600px;
-        }
-
-        /* Stats Overview */
-        .stats-overview {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: white;
-            border: 1px solid var(--gray-200);
-            border-radius: var(--radius-lg);
-            padding: 1.5rem;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            animation: fadeInUp 0.6s ease backwards;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .stat-card:nth-child(1) { animation-delay: 0.1s; }
-        .stat-card:nth-child(2) { animation-delay: 0.2s; }
-        .stat-card:nth-child(3) { animation-delay: 0.3s; }
-        .stat-card:nth-child(4) { animation-delay: 0.4s; }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .stat-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-            border-color: transparent;
-        }
-
-        .stat-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 1rem;
-        }
-
-        .stat-icon-wrap {
-            width: 48px;
-            height: 48px;
-            border-radius: var(--radius);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .stat-card:hover .stat-icon-wrap {
-            transform: scale(1.1) rotate(5deg);
-        }
-
-        .stat-icon-wrap.blue { background: rgba(99, 102, 241, 0.1); color: var(--primary); }
-        .stat-icon-wrap.green { background: rgba(16, 185, 129, 0.1); color: var(--success); }
-        .stat-icon-wrap.orange { background: rgba(245, 158, 11, 0.1); color: var(--accent); }
-        .stat-icon-wrap.purple { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
-
-        .stat-change {
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-            font-size: 0.8rem;
-            font-weight: 600;
-            padding: 0.25rem 0.625rem;
-            border-radius: 9999px;
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--success);
-        }
-
-        .stat-change.down {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--danger);
-        }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--dark);
-            margin-bottom: 0.25rem;
-            font-family: 'Inter', sans-serif;
-            letter-spacing: -0.02em;
-        }
-
-        .stat-label {
-            font-size: 0.875rem;
-            color: var(--gray-500);
-            font-weight: 500;
-        }
-
-        /* Content Grid */
-        .content-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .card {
-            background: white;
-            border: 1px solid var(--gray-200);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            animation: fadeInUp 0.8s ease backwards;
-            animation-delay: 0.5s;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .card-header {
-            padding: 1.25rem 1.5rem;
-            border-bottom: 1px solid var(--gray-200);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .card-title {
-            font-size: 1.125rem;
-            font-weight: 700;
-            color: var(--dark);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .card-actions {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 0.625rem 1.25rem;
-            border-radius: var(--radius);
-            font-size: 0.875rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            min-height: 40px;
-            text-decoration: none;
-            white-space: nowrap;
-        }
-
-        .btn-primary {
-            background: var(--gradient-primary);
-            color: white;
-            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
-        }
-
-        .btn-secondary {
-            background: var(--gray-100);
-            color: var(--gray-600);
-            border: 1px solid var(--gray-200);
-        }
-
-        .btn-secondary:hover {
-            background: var(--gray-200);
-            color: var(--dark);
-        }
-
-        .btn-ghost {
-            background: transparent;
-            color: var(--gray-500);
-        }
-
-        .btn-ghost:hover {
-            background: var(--gray-100);
-            color: var(--dark);
-        }
-
-        .btn-sm {
-            padding: 0.5rem 1rem;
-            font-size: 0.8rem;
-            min-height: 36px;
-        }
-
-        .card-body {
-            padding: 1.5rem;
-        }
-
-        /* Research Timeline */
-        .timeline {
-            position: relative;
-            padding-left: 2rem;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 0.5rem;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: var(--gray-200);
-        }
-
-        .timeline-item {
-            position: relative;
-            padding-bottom: 1.5rem;
-            animation: slideIn 0.5s ease backwards;
-        }
-
-        .timeline-item:nth-child(1) { animation-delay: 0.1s; }
-        .timeline-item:nth-child(2) { animation-delay: 0.2s; }
-        .timeline-item:nth-child(3) { animation-delay: 0.3s; }
-        .timeline-item:nth-child(4) { animation-delay: 0.4s; }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        .timeline-dot {
-            position: absolute;
-            left: -1.5rem;
-            top: 0.25rem;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--primary);
-            border: 3px solid white;
-            box-shadow: 0 0 0 2px var(--primary);
-        }
-
-        .timeline-dot.success { background: var(--success); box-shadow: 0 0 0 2px var(--success); }
-        .timeline-dot.warning { background: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
-        .timeline-dot.info { background: var(--info); box-shadow: 0 0 0 2px var(--info); }
-
-        .timeline-content {
-            background: var(--gray-100);
-            padding: 1rem;
-            border-radius: var(--radius);
-            transition: all 0.2s;
-        }
-
-        .timeline-content:hover {
-            background: white;
-            box-shadow: var(--shadow);
-            transform: translateX(5px);
-        }
-
-        .timeline-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 0.5rem;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .timeline-title {
-            font-weight: 600;
-            color: var(--dark);
-            font-size: 0.95rem;
-        }
-
-        .timeline-date {
-            font-size: 0.75rem;
-            color: var(--gray-400);
-            font-weight: 500;
-        }
-
-        .timeline-desc {
-            font-size: 0.875rem;
-            color: var(--gray-500);
-            line-height: 1.5;
-        }
-
-        .timeline-meta {
-            display: flex;
-            gap: 1rem;
-            margin-top: 0.75rem;
-            font-size: 0.75rem;
-            color: var(--gray-400);
-        }
-
-        .timeline-meta span {
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-
-        /* Publications List */
-        .pub-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .pub-item {
-            display: flex;
-            gap: 1rem;
-            padding: 1rem;
-            border: 1px solid var(--gray-200);
-            border-radius: var(--radius);
-            transition: all 0.2s;
-            animation: fadeIn 0.5s ease backwards;
-            cursor: pointer;
-        }
-
-        .pub-item:nth-child(1) { animation-delay: 0.1s; }
-        .pub-item:nth-child(2) { animation-delay: 0.2s; }
-        .pub-item:nth-child(3) { animation-delay: 0.3s; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .pub-item:hover {
-            border-color: var(--primary);
-            box-shadow: var(--shadow);
-            transform: translateY(-2px);
-        }
-
-        .pub-icon {
-            width: 48px;
-            height: 48px;
-            background: var(--gray-100);
-            border-radius: var(--radius);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            flex-shrink: 0;
-        }
-
-        .pub-content {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .pub-title {
-            font-weight: 600;
-            color: var(--dark);
-            font-size: 0.95rem;
-            margin-bottom: 0.25rem;
-            line-height: 1.4;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .pub-journal {
-            font-size: 0.8rem;
-            color: var(--gray-500);
-            margin-bottom: 0.5rem;
-        }
-
-        .pub-stats {
-            display: flex;
-            gap: 1rem;
-            font-size: 0.75rem;
-            color: var(--gray-400);
-        }
-
-        .pub-stat {
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-
-        .pub-badge {
-            padding: 0.25rem 0.5rem;
-            border-radius: var(--radius-sm);
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .pub-badge.published { background: rgba(16, 185, 129, 0.1); color: var(--success); }
-        .pub-badge.review { background: rgba(245, 158, 11, 0.1); color: var(--accent); }
-        .pub-badge.draft { background: rgba(100, 116, 139, 0.1); color: var(--gray-500); }
-
-        /* Chart Section */
-        .chart-container {
-            height: 300px;
-            position: relative;
-        }
-
-        .chart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .chart-legend {
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.8rem;
-            color: var(--gray-500);
-        }
-
-        .legend-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-        }
-
-        .chart-visual {
-            height: 220px;
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            gap: 1rem;
-            padding-bottom: 2rem;
-            position: relative;
-        }
-
-        .chart-bar-group {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .chart-bars {
-            display: flex;
-            align-items: flex-end;
-            gap: 4px;
-            height: 180px;
-            width: 100%;
-            justify-content: center;
-        }
-
-        .chart-bar {
-            flex: 1;
-            max-width: 16px;
-            border-radius: 8px 8px 0 0;
-            transition: all 0.3s ease;
-            position: relative;
-            cursor: pointer;
-            animation: growUp 1s ease backwards;
-            min-width: 8px;
-        }
-
-        .chart-bar:hover {
-            opacity: 0.8;
-            transform: scaleY(1.05);
-        }
-
-        .chart-bar.primary { background: var(--primary); }
-        .chart-bar.secondary { background: var(--secondary); }
-
-        @keyframes growUp {
-            from { height: 0 !important; }
-        }
-
-        .chart-tooltip {
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--dark);
-            color: white;
-            padding: 0.5rem 0.75rem;
-            border-radius: var(--radius-sm);
-            font-size: 0.75rem;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.2s;
-            margin-bottom: 0.5rem;
-            z-index: 10;
-        }
-
-        .chart-bar:hover .chart-tooltip {
-            opacity: 1;
-        }
-
-        .chart-label {
-            font-size: 0.75rem;
-            color: var(--gray-400);
-            font-weight: 500;
-        }
-
-        /* Team Section */
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-        }
-
-        .team-card {
-            background: white;
-            border: 1px solid var(--gray-200);
-            border-radius: var(--radius-lg);
-            padding: 1.5rem;
-            text-align: center;
-            transition: all 0.3s ease;
-            animation: fadeInUp 0.6s ease backwards;
-        }
-
-        .team-card:nth-child(1) { animation-delay: 0.1s; }
-        .team-card:nth-child(2) { animation-delay: 0.2s; }
-        .team-card:nth-child(3) { animation-delay: 0.3s; }
-
-        .team-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-            border-color: transparent;
-        }
-
-        .team-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            margin: 0 auto 1rem;
-            background: var(--gradient-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 2rem;
-            font-weight: 700;
-            position: relative;
-        }
-
-        .team-status {
-            position: absolute;
-            bottom: 5px;
-            right: 5px;
-            width: 16px;
-            height: 16px;
-            background: var(--success);
-            border-radius: 50%;
-            border: 3px solid white;
-        }
-
-        .team-name {
-            font-weight: 700;
-            color: var(--dark);
-            margin-bottom: 0.25rem;
-        }
-
-        .team-role {
-            font-size: 0.875rem;
-            color: var(--gray-500);
-            margin-bottom: 1rem;
-        }
-
-        .team-stats {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--gray-200);
-        }
-
-        .team-stat {
-            text-align: center;
-        }
-
-        .team-stat-value {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--dark);
-        }
-
-        .team-stat-label {
-            font-size: 0.75rem;
-            color: var(--gray-400);
-        }
-
-        /* Mobile Bottom Navigation */
-        .mobile-nav {
-            display: none;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            border-top: 1px solid var(--gray-200);
-            padding: 0.75rem 0;
-            z-index: 1000;
-            padding-bottom: calc(0.75rem + var(--safe-bottom));
-            box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
-        }
-
-        .mobile-nav-items {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-        }
-
-        .mobile-nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.25rem;
-            padding: 0.5rem 1rem;
-            color: var(--gray-400);
-            text-decoration: none;
-            font-size: 0.65rem;
-            font-weight: 600;
-            transition: all 0.2s;
-            min-width: 64px;
-            border-radius: var(--radius);
-        }
-
-        .mobile-nav-item i {
-            font-size: 1.25rem;
-            font-style: normal;
-            transition: transform 0.2s;
-        }
-
-        .mobile-nav-item.active {
-            color: var(--primary);
-        }
-
-        .mobile-nav-item.active i {
-            transform: translateY(-2px);
-        }
-
-        /* Overlay */
-        .sidebar-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-            opacity: 0;
-            transition: opacity 0.3s;
-            backdrop-filter: blur(4px);
-        }
-
-        .sidebar-overlay.active {
-            display: block;
-            opacity: 1;
-        }
-
-        /* Responsive Breakpoints */
-        @media (max-width: 1280px) {
-            .stats-overview {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .team-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 1024px) {
-            .content-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .dashboard-content {
-                padding: 1.5rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-                width: 85%;
-                max-width: 320px;
-            }
-
-            .sidebar.active {
-                transform: translateX(0);
-            }
-
-            .main-content {
-                margin-left: 0;
-                width: 100%;
-                padding-bottom: 80px;
-            }
-
-            .menu-toggle {
-                display: flex;
-            }
-
-            .top-header {
-                padding: 0.75rem 1rem;
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                padding-top: calc(0.75rem + var(--safe-top));
-            }
-
-            .dashboard-content {
-                padding: 1rem;
-                margin-top: 73px;
-            }
-
-            .search-container {
-                display: none;
-            }
-
-            .stats-overview {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-
-            .stat-card {
-                padding: 1.25rem;
-            }
-
-            .stat-value {
-                font-size: 1.75rem;
-            }
-
-            .page-title {
-                font-size: 1.5rem;
-            }
-
-            .chart-container {
-                height: 250px;
-            }
-
-            .chart-visual {
-                height: 180px;
-            }
-
-            .chart-bars {
-                height: 140px;
-            }
-
-            .chart-bar {
-                max-width: 12px;
-            }
-
-            .card-header {
-                padding: 1rem;
-            }
-
-            .card-body {
-                padding: 1rem;
-            }
-
-            .timeline {
-                padding-left: 1.5rem;
-            }
-
-            .timeline::before {
-                left: 0.375rem;
-            }
-
-            .timeline-dot {
-                left: -1.25rem;
-                width: 10px;
-                height: 10px;
-            }
-
-            .team-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .mobile-nav {
-                display: block;
-            }
-
-            .user-details {
-                display: none;
-            }
-
-            .header-btn:nth-of-type(2) {
-                display: none;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .page-title {
-                font-size: 1.25rem;
-            }
-
-            .stat-card {
-                padding: 1rem;
-            }
-
-            .stat-icon-wrap {
-                width: 40px;
-                height: 40px;
-                font-size: 1.25rem;
-            }
-
-            .stat-value {
-                font-size: 1.5rem;
-            }
-
-            .pub-item {
-                flex-direction: column;
-                gap: 0.75rem;
-            }
-
-            .pub-icon {
-                width: 40px;
-                height: 40px;
-                font-size: 1.25rem;
-            }
-
-            .chart-legend {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-
-            .btn {
-                padding: 0.5rem 1rem;
-                font-size: 0.8rem;
-            }
-        }
-
-        @media (max-height: 500px) and (orientation: landscape) {
-            .mobile-nav {
-                display: none;
-            }
-
-            .main-content {
-                padding-bottom: 0;
-            }
-        }
-
-        /* Touch optimizations */
-        @media (hover: none) and (pointer: coarse) {
-            .stat-card:hover,
-            .team-card:hover,
-            .pub-item:hover,
-            .timeline-content:hover {
-                transform: none;
-            }
-
-            .btn:hover,
-            .header-btn:hover {
-                transform: none;
-            }
-        }
-
-        /* Reduced motion */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--gray-100);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--gray-300);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--gray-400);
-        }
-
-        @media (max-width: 768px) {
-            ::-webkit-scrollbar {
-                width: 4px;
-                height: 4px;
-            }
-        }
-
-        /* Utilities */
-        .hidden-mobile { display: inherit; }
-        @media (max-width: 768px) {
-            .hidden-mobile { display: none !important; }
-        }
-
-        .visible-mobile { display: none !important; }
-        @media (max-width: 768px) {
-            .visible-mobile { display: inherit !important; }
-        }
-
-        .text-gradient {
-            background: var(--gradient-primary);
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .sidebar-transition {
+            transition: transform 0.3s ease-in-out;
+        }
+        .nav-item.active {
+            background-color: #eff6ff;
+            color: #4f46e5;
+            border-right: 3px solid #4f46e5;
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+        .progress-bar {
+            transition: width 0.5s ease;
+        }
+        .fade-in {
+            animation: fadeIn 0.4s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .mobile-menu-overlay {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+        }
+        .logo-hover {
+            transition: transform 0.2s ease;
+        }
+        .logo-hover:hover {
+            transform: scale(1.05);
         }
     </style>
 </head>
-<body>
-    <div class="bg-pattern"></div>
-    <div class="grid-pattern"></div>
-    
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
-    
-    <div class="app-container">
-        <!-- Sidebar -->
-        <aside class="sidebar" id="sidebar">
-             <div class="nav-container">
-            <a href="index.html" class="logo" style="display: flex; align-items: center; gap: 12px;">
-                <img src="logo.webp" alt="Stackly Logo" style="height: 55px; width: 50px; object-fit: contain;">
-                <span style="font-size: 28px; font-weight: 800; color: var(--dark-blue);">Stackly</span>
+<body class="bg-gray-50 text-gray-800 overflow-x-hidden">
+
+    <!-- Mobile Header -->
+    <div class="lg:hidden bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between sticky top-0 z-40">
+        <div class="flex items-center gap-3">
+            <button id="mobile-menu-btn" class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                <i class="fas fa-bars text-gray-600 text-xl"></i>
+            </button>
+            <!-- Mobile Logo with href -->
+            <a href="Dash3.html" target="_blank" class="flex items-center gap-2 logo-hover">
+                <img src="logo.webp" alt="BioTech Labs Logo" class="w-10 h-10 rounded-lg shadow-md object-cover">
+                <div>
+                    <h1 class="font-bold text-gray-900 text-sm">Stackly</h1>
+                    <p class="text-xs text-gray-500">Researcher Portal</p>
+                </div>
             </a>
+        </div>
+        <div class="flex items-center gap-3">
+            <button class="relative p-2 hover:bg-gray-100 rounded-lg">
+                <i class="fas fa-bell text-gray-600"></i>
+                <span class="absolute top-1 right-1 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">3</span>
+            </button>
+            <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-semibold text-sm">
+                JD
+            </div>
+        </div>
+    </div>
+
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 sidebar-transition transform -translate-x-full lg:translate-x-0 flex flex-col h-screen overflow-y-auto">
+            <!-- Desktop Logo with href -->
+            <div class="hidden lg:flex items-center gap-3 p-6 border-b border-gray-100">
+                <a href="Dash3.html" target="_blank" class="flex items-center gap-3 logo-hover group">
+                    <img src="logo.webp" alt="Stackly Logo" class="w-12 h-12 rounded-xl shadow-lg shadow-purple-200 object-cover group-hover:shadow-purple-300 transition-shadow">
+                    <div>
+                        <h1 class="font-bold text-gray-900 text-lg">Stackly</h1>
+                        <p class="text-xs text-gray-500">Researcher Portal</p>
+                    </div>
+                </a>
             </div>
 
-            <nav class="sidebar-nav">
-                <div class="nav-section">
-                    <div class="nav-section-title">Overview</div>
-                    <ul class="nav-menu">
-                        <li class="nav-item">
-                            <a href="404.html" class="nav-link active">
-                                <i>📊</i>
-                                <span>Dashboard</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="404.html" class="nav-link">
-                                <i>📄</i>
-                                <span>Publications</span>
-                                <span class="nav-badge">5</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="404.html" class="nav-link">
-                                <i>🔬</i>
-                                <span>Projects</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="404.html" class="nav-link">
-                                <i>📚</i>
-                                <span>Library</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+            <!-- Mobile Logo in Sidebar -->
+            <div class="lg:hidden p-4 border-b border-gray-100">
+                <a href="Dash3.html" target="_blank" class="flex items-center gap-3 logo-hover">
+                    <img src="logo.webp" alt="Stackly Logo" class="w-10 h-10 rounded-lg shadow-md object-cover">
+                    <div>
+                        <h1 class="font-bold text-gray-900">Stackly</h1>
+                        <p class="text-xs text-gray-500">Researcher Portal</p>
+                    </div>
+                </a>
+            </div>
 
-                <div class="nav-section">
-                    <div class="nav-section-title">Research</div>
-                    <ul class="nav-menu">
-                        <li class="nav-item">
-                            <a href="404.html" class="nav-link">
-                                <i>🧪</i>
-                                <span>Experiments</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="404.html" class="nav-link">
-                                <i>📊</i>
-                                <span>Data Analysis</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="404.html" class="nav-link">
-                                <i>👥</i>
-                                <span>Collaborators</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+            <!-- Mobile Close Button -->
+            <div class="lg:hidden flex justify-end p-4 absolute top-0 right-0">
+                <button id="close-sidebar" class="p-2 hover:bg-gray-100 rounded-lg">
+                    <i class="fas fa-times text-gray-600 text-xl"></i>
+                </button>
+            </div>
 
-                <div class="nav-section">
-                    <div class="nav-section-title">Settings</div>
-                    <ul class="nav-menu">
-                        <li class="nav-item">
-                            <a href="404.html" class="nav-link">
-                                <i>⚙️</i>
-                                <span>Preferences</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="404.html" class="nav-link">
-                                <i>❓</i>
-                                <span>Help & Support</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+            <!-- Navigation -->
+            <nav class="flex-1 px-4 py-4 space-y-1">
+                <button onclick="navigateTo('dashboard')" class="nav-item w-full flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-all group active" data-page="dashboard">
+                    <i class="fas fa-home w-5 text-center group-hover:text-purple-600 transition-colors"></i>
+                    <span class="font-medium">Dashboard</span>
+                </button>
+                
+                <button onclick="navigateTo('projects')" class="nav-item w-full flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-all group" data-page="projects">
+                    <i class="fas fa-flask w-5 text-center group-hover:text-purple-600 transition-colors"></i>
+                    <span class="font-medium">My Projects</span>
+                </button>
+                
+                <button onclick="navigateTo('samples')" class="nav-item w-full flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-all group" data-page="samples">
+                    <i class="fas fa-vial w-5 text-center group-hover:text-purple-600 transition-colors"></i>
+                    <span class="font-medium">Lab Samples</span>
+                </button>
+                
+                <button onclick="navigateTo('analysis')" class="nav-item w-full flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-all group" data-page="analysis">
+                    <i class="fas fa-brain w-5 text-center group-hover:text-purple-600 transition-colors"></i>
+                    <span class="font-medium">AI Analysis</span>
+                </button>
+                
+                <button onclick="navigateTo('sequencing')" class="nav-item w-full flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-all group" data-page="sequencing">
+                    <i class="fas fa-dna w-5 text-center group-hover:text-purple-600 transition-colors"></i>
+                    <span class="font-medium">Sequencing</span>
+                </button>
+                
+                <button onclick="navigateTo('trials')" class="nav-item w-full flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-all group" data-page="trials">
+                    <i class="fas fa-file-medical w-5 text-center group-hover:text-purple-600 transition-colors"></i>
+                    <span class="font-medium">Clinical Trials</span>
+                </button>
+                
+                <button onclick="navigateTo('settings')" class="nav-item w-full flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-all group" data-page="settings">
+                    <i class="fas fa-cog w-5 text-center group-hover:text-purple-600 transition-colors"></i>
+                    <span class="font-medium">Settings</span>
+                </button>
             </nav>
 
-            <div class="sidebar-footer">
-                <div class="upgrade-card">
-                    <div class="upgrade-text">Pro Plan</div>
-                    <div class="upgrade-subtext">Get advanced analytics</div>
-                    <button class="upgrade-btn">Upgrade</button>
+            <!-- Quick Stats -->
+            <div class="p-4 border-t border-gray-200 bg-gray-50">
+                <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Quick Stats</h3>
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-600">Active</span>
+                        <span class="font-semibold text-gray-900">12</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-600">Pending</span>
+                        <span class="font-semibold text-gray-900">5</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-600">Completed</span>
+                        <span class="font-semibold text-gray-900">342</span>
+                    </div>
                 </div>
             </div>
         </aside>
 
+        <!-- Overlay for mobile -->
+        <div id="sidebar-overlay" class="fixed inset-0 z-40 mobile-menu-overlay hidden lg:hidden"></div>
+
         <!-- Main Content -->
-        <main class="main-content">
-            <!-- Top Header -->
-            <header class="top-header">
-                <div class="header-left">
-                    <button class="menu-toggle" id="menuToggle">☰</button>
-                    <div class="search-container">
-                        <span class="search-icon">🔍</span>
-                        <input type="text" class="search-box" placeholder="Search publications, datasets, protocols...">
+        <main class="flex-1 min-w-0 overflow-y-auto">
+            <!-- Desktop Header -->
+            <header class="hidden lg:flex items-center justify-between px-8 py-4 bg-white border-b border-gray-200 sticky top-0 z-30">
+                <div class="flex-1 max-w-2xl">
+                    <div class="relative">
+                        <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <input type="text" placeholder="Search samples, projects, patients..." class="w-full pl-10 pr-4 py-2.5 bg-gray-100 border-0 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all">
                     </div>
                 </div>
-
-                <div class="header-right">
-                    <button class="header-btn">
-                        🔔
-                        <span class="notification-pulse"></span>
-                    </button>
-                    <button class="header-btn hidden-mobile">
-                        ✉️
+                
+                <div class="flex items-center gap-4 ml-6">
+                    <button class="relative p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                        <i class="fas fa-bell text-gray-600 text-lg"></i>
+                        <span class="absolute top-1 right-1 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center border-2 border-white">3</span>
                     </button>
                     
-                    <div class="user-dropdown">
-                        <div class="user-avatar">JD</div>
-                        <div class="user-details">
-                            <div class="user-name">Dr. Jane Doe</div>
-                            <div class="user-role">Principal Investigator</div>
+                    <div class="flex items-center gap-3 pl-4 border-l border-gray-200">
+                        <div class="text-right hidden xl:block">
+                            <p class="text-sm font-semibold text-gray-900">Dr. John Researcher</p>
+                            <p class="text-xs text-gray-500">mathumitha1698@gmail.com</p>
                         </div>
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-semibold cursor-pointer hover:bg-blue-200 transition-colors">
+                            JD
+                        </div>
+                        <i class="fas fa-chevron-down text-gray-400 text-sm cursor-pointer"></i>
                     </div>
                 </div>
             </header>
 
-            <!-- Dashboard Content -->
-            <div class="dashboard-content">
-                <div class="page-header">
-                    <h1 class="page-title">Research <span class="text-gradient">Dashboard</span></h1>
-                    <p class="page-subtitle">Track your research progress, publications, and collaborative projects in one place.</p>
+            <!-- Mobile Search -->
+            <div class="lg:hidden px-4 py-3 bg-white border-b border-gray-200">
+                <div class="relative">
+                    <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" placeholder="Search samples, projects, patients..." class="w-full pl-10 pr-4 py-2.5 bg-gray-100 border-0 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
                 </div>
+            </div>
 
-                <!-- Stats Overview -->
-                <div class="stats-overview">
-                    <div class="stat-card">
-                        <div class="stat-header">
-                            <div class="stat-icon-wrap blue">📄</div>
-                            <div class="stat-change">
-                                <span>↑</span>
-                                <span>23%</span>
-                            </div>
-                        </div>
-                        <div class="stat-value">24</div>
-                        <div class="stat-label">Publications</div>
+            <!-- Content Area -->
+            <div class="p-4 lg:p-8 max-w-7xl mx-auto">
+                
+                <!-- Dashboard Page -->
+                <div id="page-dashboard" class="page-content fade-in">
+                    <div class="mb-8">
+                        <h1 class="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Welcome back, Dr. John Researcher!</h1>
+                        <p class="text-gray-500">Here's what's happening with your research today</p>
                     </div>
 
-                    <div class="stat-card">
-                        <div class="stat-header">
-                            <div class="stat-icon-wrap green">🔬</div>
-                            <div class="stat-change">
-                                <span>↑</span>
-                                <span>8%</span>
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                        <div class="bg-white p-5 rounded-xl border border-gray-200 card-hover">
+                            <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 mb-3">
+                                <i class="fas fa-flask text-lg"></i>
                             </div>
+                            <p class="text-sm text-gray-600 mb-1">My Projects</p>
+                            <p class="text-2xl lg:text-3xl font-bold text-gray-900">3</p>
                         </div>
-                        <div class="stat-value">12</div>
-                        <div class="stat-label">Active Projects</div>
-                    </div>
-
-                    <div class="stat-card">
-                        <div class="stat-header">
-                            <div class="stat-icon-wrap orange">📊</div>
-                            <div class="stat-change down">
-                                <span>↓</span>
-                                <span>5%</span>
+                        
+                        <div class="bg-white p-5 rounded-xl border border-gray-200 card-hover">
+                            <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 mb-3">
+                                <i class="fas fa-vial text-lg"></i>
                             </div>
+                            <p class="text-sm text-gray-600 mb-1">Samples</p>
+                            <p class="text-2xl lg:text-3xl font-bold text-gray-900">127</p>
                         </div>
-                        <div class="stat-value">1,284</div>
-                        <div class="stat-label">Citations</div>
-                    </div>
-
-                    <div class="stat-card">
-                        <div class="stat-header">
-                            <div class="stat-icon-wrap purple">👥</div>
-                            <div class="stat-change">
-                                <span>↑</span>
-                                <span>15%</span>
+                        
+                        <div class="bg-white p-5 rounded-xl border border-gray-200 card-hover">
+                            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center text-green-600 mb-3">
+                                <i class="fas fa-brain text-lg"></i>
                             </div>
+                            <p class="text-sm text-gray-600 mb-1">AI Analysis</p>
+                            <p class="text-2xl lg:text-3xl font-bold text-gray-900">45</p>
                         </div>
-                        <div class="stat-value">48</div>
-                        <div class="stat-label">Collaborators</div>
-                    </div>
-                </div>
-
-                <!-- Content Grid -->
-                <div class="content-grid">
-                    <!-- Research Timeline -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">📅 Research Timeline</h3>
-                            <div class="card-actions">
-                                <button class="btn btn-secondary btn-sm">Filter</button>
-                                <button class="btn btn-primary btn-sm">+ Add Milestone</button>
+                        
+                        <div class="bg-white p-5 rounded-xl border border-gray-200 card-hover">
+                            <div class="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center text-amber-600 mb-3">
+                                <i class="fas fa-file-alt text-lg"></i>
                             </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="timeline">
-                                <div class="timeline-item">
-                                    <div class="timeline-dot success"></div>
-                                    <div class="timeline-content">
-                                        <div class="timeline-header">
-                                            <span class="timeline-title">Paper Published in Nature</span>
-                                            <span class="timeline-date">Today</span>
-                                        </div>
-                                        <p class="timeline-desc">"Novel CRISPR Applications in Gene Therapy" has been accepted and published.</p>
-                                        <div class="timeline-meta">
-                                            <span>🎉 Impact Factor: 43.07</span>
-                                            <span>👁 1.2k views</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="timeline-item">
-                                    <div class="timeline-dot info"></div>
-                                    <div class="timeline-content">
-                                        <div class="timeline-header">
-                                            <span class="timeline-title">Grant Application Submitted</span>
-                                            <span class="timeline-date">2 days ago</span>
-                                        </div>
-                                        <p class="timeline-desc">NIH R01 grant application for cancer genomics research submitted.</p>
-                                        <div class="timeline-meta">
-                                            <span>💰 $2.5M requested</span>
-                                            <span>⏱ Decision: 6 months</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="timeline-item">
-                                    <div class="timeline-dot warning"></div>
-                                    <div class="timeline-content">
-                                        <div class="timeline-header">
-                                            <span class="timeline-title">Experiment Phase 2 Complete</span>
-                                            <span class="timeline-date">1 week ago</span>
-                                        </div>
-                                        <p class="timeline-desc">Clinical trial phase 2 data collection completed. 240 participants.</p>
-                                        <div class="timeline-meta">
-                                            <span>📊 Data: 2.4TB</span>
-                                            <span>✓ 98% retention</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="timeline-item">
-                                    <div class="timeline-dot"></div>
-                                    <div class="timeline-content">
-                                        <div class="timeline-header">
-                                            <span class="timeline-title">Conference Presentation</span>
-                                            <span class="timeline-date">2 weeks ago</span>
-                                        </div>
-                                        <p class="timeline-desc">Presented at International Conference on Molecular Biology.</p>
-                                        <div class="timeline-meta">
-                                            <span>🎤 Keynote speaker</span>
-                                            <span>⭐ 4.9/5 rating</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <p class="text-sm text-gray-600 mb-1">Publications</p>
+                            <p class="text-2xl lg:text-3xl font-bold text-gray-900">9</p>
                         </div>
                     </div>
 
-                    <!-- Recent Publications -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">📚 Recent Publications</h3>
-                            <button class="btn btn-ghost btn-sm">View All</button>
+                    <!-- Projects Section -->
+                    <div class="bg-white rounded-xl border border-gray-200 p-6">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
+                            <div>
+                                <h2 class="text-lg font-bold text-gray-900">My Research Projects</h2>
+                                <p class="text-sm text-gray-500">Active projects you're leading or collaborating on</p>
+                            </div>
+                            <button class="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors w-full sm:w-auto">
+                                View All
+                            </button>
                         </div>
-                        <div class="card-body">
-                            <div class="pub-list">
-                                <div class="pub-item">
-                                    <div class="pub-icon">🧬</div>
-                                    <div class="pub-content">
-                                        <div class="pub-title">Advances in CRISPR-Cas9 Delivery Methods for Therapeutic Applications</div>
-                                        <div class="pub-journal">Nature Biotechnology • 2026</div>
-                                        <div class="pub-stats">
-                                            <span class="pub-stat">👁 3.2k views</span>
-                                            <span class="pub-stat">📊 156 citations</span>
-                                            <span class="pub-badge published">Published</span>
-                                        </div>
+
+                        <div class="space-y-4">
+                            <!-- Project 1 -->
+                            <div class="border border-gray-200 rounded-xl p-5 card-hover">
+                                <div class="flex flex-col sm:flex-row sm:items-start justify-between mb-4 gap-2">
+                                    <div>
+                                        <h3 class="font-bold text-gray-900 text-lg mb-1">Cancer Genomics Study</h3>
+                                        <p class="text-sm text-gray-500">Comprehensive analysis of genetic mutations in breast cancer patients</p>
+                                    </div>
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-900 text-white w-fit">active</span>
+                                </div>
+                                
+                                <div class="grid grid-cols-3 gap-4 mb-4 text-sm">
+                                    <div>
+                                        <p class="text-gray-500 mb-1">Team</p>
+                                        <p class="font-semibold text-gray-900">4 members</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-500 mb-1">Progress</p>
+                                        <p class="font-semibold text-gray-900">67%</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-500 mb-1">Publications</p>
+                                        <p class="font-semibold text-gray-900">3</p>
                                     </div>
                                 </div>
                                 
-                                <div class="pub-item">
-                                    <div class="pub-icon">🔬</div>
-                                    <div class="pub-content">
-                                        <div class="pub-title">Single-Cell RNA Sequencing Reveals Novel Markers in Tumor Microenvironment</div>
-                                        <div class="pub-journal">Cell • Under Review</div>
-                                        <div class="pub-stats">
-                                            <span class="pub-stat">⏱ 45 days</span>
-                                            <span class="pub-stat">👤 8 co-authors</span>
-                                            <span class="pub-badge review">In Review</span>
-                                        </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-blue-600 h-2 rounded-full progress-bar" style="width: 67%"></div>
+                                </div>
+                            </div>
+
+                            <!-- Project 2 -->
+                            <div class="border border-gray-200 rounded-xl p-5 card-hover">
+                                <div class="flex flex-col sm:flex-row sm:items-start justify-between mb-4 gap-2">
+                                    <div>
+                                        <h3 class="font-bold text-gray-900 text-lg mb-1">Alzheimer's Biomarker Discovery</h3>
+                                        <p class="text-sm text-gray-500">Identifying novel protein biomarkers for early Alzheimer's detection</p>
+                                    </div>
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 w-fit">pending</span>
+                                </div>
+                                
+                                <div class="grid grid-cols-3 gap-4 mb-4 text-sm">
+                                    <div>
+                                        <p class="text-gray-500 mb-1">Team</p>
+                                        <p class="font-semibold text-gray-900">6 members</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-500 mb-1">Progress</p>
+                                        <p class="font-semibold text-gray-900">34%</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-500 mb-1">Publications</p>
+                                        <p class="font-semibold text-gray-900">1</p>
                                     </div>
                                 </div>
                                 
-                                <div class="pub-item">
-                                    <div class="pub-icon">📊</div>
-                                    <div class="pub-content">
-                                        <div class="pub-title">Machine Learning Approaches for Predicting Protein-Protein Interactions</div>
-                                        <div class="pub-journal">Bioinformatics • Draft</div>
-                                        <div class="pub-stats">
-                                            <span class="pub-stat">📝 85% complete</span>
-                                            <span class="pub-stat">👤 5 co-authors</span>
-                                            <span class="pub-badge draft">Draft</span>
-                                        </div>
-                                    </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-purple-600 h-2 rounded-full progress-bar" style="width: 34%"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Research Activity Chart -->
-                <div class="card" style="margin-bottom: 2rem;">
-                    <div class="card-header">
-                        <h3 class="card-title">📈 Research Activity</h3>
-                        <div class="card-actions">
-                            <div class="chart-legend hidden-mobile">
-                                <div class="legend-item">
-                                    <div class="legend-dot" style="background: var(--primary);"></div>
-                                    <span>Publications</span>
+                <!-- Projects Page -->
+                <div id="page-projects" class="page-content hidden fade-in">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
+                        <div>
+                            <h1 class="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Research Projects</h1>
+                            <p class="text-gray-500">Manage and collaborate on research initiatives</p>
+                        </div>
+                        <button class="px-4 py-2.5 gradient-bg text-white font-medium rounded-lg hover:opacity-90 transition-opacity flex items-center gap-2 shadow-lg shadow-purple-200 w-full sm:w-auto justify-center">
+                            <i class="fas fa-plus"></i>
+                            New Project
+                        </button>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="bg-white border border-gray-200 rounded-xl p-6 card-hover">
+                            <div class="flex flex-col lg:flex-row lg:items-center justify-between mb-4 gap-4">
+                                <div>
+                                    <h3 class="font-bold text-xl text-gray-900 mb-1">Cancer Genomics Study</h3>
+                                    <p class="text-gray-500">Comprehensive analysis of genetic mutations in breast cancer patients</p>
                                 </div>
-                                <div class="legend-item">
-                                    <div class="legend-dot" style="background: var(--secondary);"></div>
-                                    <span>Citations</span>
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-900 text-white w-fit">active</span>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                                <div class="flex items-center gap-3">
+                                    <i class="fas fa-users text-blue-500"></i>
+                                    <div>
+                                        <p class="text-xs text-gray-500">Team Size</p>
+                                        <p class="font-semibold text-gray-900">4 members</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <i class="fas fa-dollar-sign text-green-500"></i>
+                                    <div>
+                                        <p class="text-xs text-gray-500">Budget</p>
+                                        <p class="font-semibold text-gray-900">$500K</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <i class="fas fa-file-alt text-purple-500"></i>
+                                    <div>
+                                        <p class="text-xs text-gray-500">Publications</p>
+                                        <p class="font-semibold text-gray-900">3</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <i class="fas fa-chart-line text-amber-500"></i>
+                                    <div>
+                                        <p class="text-xs text-gray-500">Progress</p>
+                                        <p class="font-semibold text-gray-900">67%</p>
+                                    </div>
                                 </div>
                             </div>
-                            <button class="btn btn-secondary btn-sm">Export</button>
+                            
+                            <div class="mb-4">
+                                <div class="flex justify-between text-sm mb-2">
+                                    <span class="text-gray-600">Project Progress</span>
+                                    <span class="font-semibold text-gray-900">67%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="gradient-bg h-2.5 rounded-full progress-bar" style="width: 67%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pt-4 border-t border-gray-100">
+                                <div>
+                                    <p class="text-sm text-gray-500">Lead Researcher</p>
+                                    <p class="font-semibold text-gray-900">Dr. Emily Chen</p>
+                                </div>
+                                <div class="flex gap-2 w-full sm:w-auto">
+                                    <button class="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors flex-1 sm:flex-none">
+                                        View Details
+                                    </button>
+                                    <button class="px-4 py-2 border border-gray-300 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 transition-colors flex-1 sm:flex-none">
+                                        Team
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white border border-gray-200 rounded-xl p-6 card-hover">
+                            <div class="flex flex-col lg:flex-row lg:items-center justify-between mb-4 gap-4">
+                                <div>
+                                    <h3 class="font-bold text-xl text-gray-900 mb-1">Alzheimer's Biomarker Discovery</h3>
+                                    <p class="text-gray-500">Identifying novel protein biomarkers for early Alzheimer's detection</p>
+                                </div>
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-900 text-white w-fit">active</span>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                                <div class="flex items-center gap-3">
+                                    <i class="fas fa-users text-blue-500"></i>
+                                    <div>
+                                        <p class="text-xs text-gray-500">Team Size</p>
+                                        <p class="font-semibold text-gray-900">3 members</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <i class="fas fa-dollar-sign text-green-500"></i>
+                                    <div>
+                                        <p class="text-xs text-gray-500">Budget</p>
+                                        <p class="font-semibold text-gray-900">$750K</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <i class="fas fa-file-alt text-purple-500"></i>
+                                    <div>
+                                        <p class="text-xs text-gray-500">Publications</p>
+                                        <p class="font-semibold text-gray-900">1</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <i class="fas fa-chart-line text-amber-500"></i>
+                                    <div>
+                                        <p class="text-xs text-gray-500">Progress</p>
+                                        <p class="font-semibold text-gray-900">45%</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <div class="flex justify-between text-sm mb-2">
+                                    <span class="text-gray-600">Project Progress</span>
+                                    <span class="font-semibold text-gray-900">45%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="gradient-bg h-2.5 rounded-full progress-bar" style="width: 45%"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <div class="chart-container">
-                            <div class="chart-visual">
-                                <div class="chart-bar-group">
-                                    <div class="chart-bars">
-                                        <div class="chart-bar primary" style="height: 40%; --i: 0;">
-                                            <div class="chart-tooltip">4 pubs</div>
-                                        </div>
-                                        <div class="chart-bar secondary" style="height: 25%; --i: 1;">
-                                            <div class="chart-tooltip">45 cites</div>
-                                        </div>
-                                    </div>
-                                    <span class="chart-label">Jan</span>
+                </div>
+
+                <!-- Lab Samples Page -->
+                <div id="page-samples" class="page-content hidden fade-in">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
+                        <div>
+                            <h1 class="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Lab Management</h1>
+                            <p class="text-gray-500">Sample tracking and equipment monitoring</p>
+                        </div>
+                        <button class="px-4 py-2.5 gradient-bg text-white font-medium rounded-lg hover:opacity-90 transition-opacity flex items-center gap-2 shadow-lg shadow-purple-200 w-full sm:w-auto justify-center">
+                            <i class="fas fa-plus"></i>
+                            Add Sample
+                        </button>
+                    </div>
+
+                    <!-- Tabs -->
+                    <div class="flex gap-2 mb-6 overflow-x-auto pb-2">
+                        <button class="px-4 py-2 bg-gray-900 text-white rounded-full text-sm font-medium whitespace-nowrap">Samples (3)</button>
+                        <button class="px-4 py-2 bg-gray-100 text-gray-600 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors whitespace-nowrap">Equipment (3)</button>
+                    </div>
+
+                    <div class="relative mb-6">
+                        <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <input type="text" placeholder="Search samples..." class="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <!-- Sample 1 -->
+                        <div class="bg-white border border-gray-200 rounded-xl p-5 card-hover">
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600">
+                                    <i class="fas fa-vial"></i>
                                 </div>
-                                <div class="chart-bar-group">
-                                    <div class="chart-bars">
-                                        <div class="chart-bar primary" style="height: 55%; --i: 2;">
-                                            <div class="chart-tooltip">6 pubs</div>
-                                        </div>
-                                        <div class="chart-bar secondary" style="height: 35%; --i: 3;">
-                                            <div class="chart-tooltip">78 cites</div>
-                                        </div>
-                                    </div>
-                                    <span class="chart-label">Feb</span>
+                                <span class="px-3 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded-full">stored</span>
+                            </div>
+                            <h3 class="font-bold text-gray-900 mb-4">Blood Sample - Patient A</h3>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">ID:</span>
+                                    <span class="font-mono text-gray-900">SMP-001</span>
                                 </div>
-                                <div class="chart-bar-group">
-                                    <div class="chart-bars">
-                                        <div class="chart-bar primary" style="height: 45%; --i: 4;">
-                                            <div class="chart-tooltip">5 pubs</div>
-                                        </div>
-                                        <div class="chart-bar secondary" style="height: 45%; --i: 5;">
-                                            <div class="chart-tooltip">102 cites</div>
-                                        </div>
-                                    </div>
-                                    <span class="chart-label">Mar</span>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Type:</span>
+                                    <span class="text-gray-900">DNA</span>
                                 </div>
-                                <div class="chart-bar-group">
-                                    <div class="chart-bars">
-                                        <div class="chart-bar primary" style="height: 70%; --i: 6;">
-                                            <div class="chart-tooltip">8 pubs</div>
-                                        </div>
-                                        <div class="chart-bar secondary" style="height: 60%; --i: 7;">
-                                            <div class="chart-tooltip">145 cites</div>
-                                        </div>
-                                    </div>
-                                    <span class="chart-label">Apr</span>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Location:</span>
+                                    <span class="text-gray-900">Freezer A-12</span>
                                 </div>
-                                <div class="chart-bar-group">
-                                    <div class="chart-bars">
-                                        <div class="chart-bar primary" style="height: 85%; --i: 8;">
-                                            <div class="chart-tooltip">10 pubs</div>
-                                        </div>
-                                        <div class="chart-bar secondary" style="height: 75%; --i: 9;">
-                                            <div class="chart-tooltip">189 cites</div>
-                                        </div>
-                                    </div>
-                                    <span class="chart-label">May</span>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Temperature:</span>
+                                    <span class="text-gray-900">-80°C</span>
                                 </div>
-                                <div class="chart-bar-group">
-                                    <div class="chart-bars">
-                                        <div class="chart-bar primary" style="height: 60%; --i: 10;">
-                                            <div class="chart-tooltip">7 pubs</div>
-                                        </div>
-                                        <div class="chart-bar secondary" style="height: 90%; --i: 11;">
-                                            <div class="chart-tooltip">234 cites</div>
-                                        </div>
-                                    </div>
-                                    <span class="chart-label">Jun</span>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Quantity:</span>
+                                    <span class="text-gray-900">500 μL</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sample 2 -->
+                        <div class="bg-white border border-gray-200 rounded-xl p-5 card-hover">
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600">
+                                    <i class="fas fa-vial"></i>
+                                </div>
+                                <span class="px-3 py-1 bg-blue-50 text-blue-600 text-xs font-medium rounded-full">processing</span>
+                            </div>
+                            <h3 class="font-bold text-gray-900 mb-4">Tissue Biopsy - Case 42</h3>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">ID:</span>
+                                    <span class="font-mono text-gray-900">SMP-002</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Type:</span>
+                                    <span class="text-gray-900">Tissue</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Location:</span>
+                                    <span class="text-gray-900">Lab Station 3</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Temperature:</span>
+                                    <span class="text-gray-900">4°C</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Quantity:</span>
+                                    <span class="text-gray-900">2.5 mg</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sample 3 -->
+                        <div class="bg-white border border-gray-200 rounded-xl p-5 card-hover">
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600">
+                                    <i class="fas fa-vial"></i>
+                                </div>
+                                <span class="px-3 py-1 bg-gray-900 text-white text-xs font-medium rounded-full">analyzed</span>
+                            </div>
+                            <h3 class="font-bold text-gray-900 mb-4">RNA Extract - Experiment 7</h3>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">ID:</span>
+                                    <span class="font-mono text-gray-900">SMP-003</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Type:</span>
+                                    <span class="text-gray-900">RNA</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Location:</span>
+                                    <span class="text-gray-900">Freezer B-05</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Temperature:</span>
+                                    <span class="text-gray-900">-80°C</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Quantity:</span>
+                                    <span class="text-gray-900">250 μL</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Research Team -->
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">👥 Research Team</h3>
-                        <button class="btn btn-primary btn-sm">+ Invite Member</button>
+                <!-- AI Analysis Page -->
+                <div id="page-analysis" class="page-content hidden fade-in">
+                    <div class="mb-6">
+                        <h1 class="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">AI-Powered Analysis</h1>
+                        <p class="text-gray-500">Advanced machine learning for genetic data interpretation</p>
                     </div>
-                    <div class="card-body">
-                        <div class="team-grid">
-                            <div class="team-card">
-                                <div class="team-avatar" style="background: var(--gradient-primary);">
-                                    JD
-                                    <div class="team-status"></div>
+
+                    <div class="bg-white border border-gray-200 rounded-xl p-6 lg:p-8">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <h2 class="text-lg font-bold text-gray-900">Upload Data for AI Analysis</h2>
+                        </div>
+                        <p class="text-sm text-gray-500 mb-6 ml-11">Supported formats: VCF, BAM, FASTQ, CSV</p>
+
+                        <div class="border-2 border-dashed border-gray-300 rounded-xl p-8 lg:p-12 text-center hover:border-purple-400 transition-colors cursor-pointer bg-gray-50">
+                            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm">
+                                <i class="fas fa-upload text-2xl text-gray-400"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-2">Drop files here or click to upload</h3>
+                            <p class="text-sm text-gray-500 mb-6">Maximum file size: 500MB</p>
+                            <button class="px-6 py-2.5 gradient-bg text-white font-medium rounded-lg hover:opacity-90 transition-opacity flex items-center gap-2 mx-auto shadow-lg shadow-purple-200">
+                                <i class="fas fa-sparkles"></i>
+                                Start AI Analysis
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sequencing Page -->
+                <div id="page-sequencing" class="page-content hidden fade-in">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
+                        <div>
+                            <h1 class="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Genetic Sequencing</h1>
+                            <p class="text-gray-500">Whole genome, exome, and targeted sequencing</p>
+                        </div>
+                        <button class="px-4 py-2.5 gradient-bg text-white font-medium rounded-lg hover:opacity-90 transition-opacity flex items-center gap-2 shadow-lg shadow-purple-200 w-full sm:w-auto justify-center">
+                            <i class="fas fa-play"></i>
+                            New Sequencing Run
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Sequencing Card 1 -->
+                        <div class="bg-white border border-gray-200 rounded-xl p-6 card-hover">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600">
+                                    <i class="fas fa-dna text-xl"></i>
                                 </div>
-                                <div class="team-name">Dr. Jane Doe</div>
-                                <div class="team-role">Principal Investigator</div>
-                                <div class="team-stats">
-                                    <div class="team-stat">
-                                        <div class="team-stat-value">24</div>
-                                        <div class="team-stat-label">Papers</div>
+                                <span class="px-3 py-1 bg-gray-900 text-white text-xs font-medium rounded-full">completed</span>
+                            </div>
+                            
+                            <h3 class="font-bold text-xl text-gray-900 mb-1">Whole Genome</h3>
+                            <p class="text-sm text-gray-500 mb-6">Sample: SMP-001</p>
+                            
+                            <div class="space-y-4 mb-6">
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span class="text-gray-600">Quality Score</span>
+                                        <span class="font-semibold text-gray-900">98.5%</span>
                                     </div>
-                                    <div class="team-stat">
-                                        <div class="team-stat-value">156</div>
-                                        <div class="team-stat-label">Citations</div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                        <div class="bg-gray-900 h-2 rounded-full" style="width: 98.5%"></div>
                                     </div>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-600">Coverage</span>
+                                    <span class="font-semibold text-gray-900">30X</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-600">Variants Found</span>
+                                    <span class="font-semibold text-gray-900">4,523</span>
                                 </div>
                             </div>
 
-                            <div class="team-card">
-                                <div class="team-avatar" style="background: var(--gradient-success);">
-                                    MS
-                                    <div class="team-status"></div>
+                            <div class="bg-purple-50 rounded-lg p-4 mb-4">
+                                <p class="text-sm font-medium text-purple-900 mb-2">AI Predictions Available</p>
+                                <ul class="text-sm text-purple-700 space-y-1">
+                                    <li>• Type 2 Diabetes (moderate)</li>
+                                    <li>• Cardiovascular Disease (low)</li>
+                                </ul>
+                            </div>
+
+                            <div class="flex gap-2">
+                                <button class="flex-1 px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors flex items-center justify-center gap-2">
+                                    <i class="fas fa-eye"></i>
+                                    View
+                                </button>
+                                <button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Sequencing Card 2 -->
+                        <div class="bg-white border border-gray-200 rounded-xl p-6 card-hover">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600">
+                                    <i class="fas fa-dna text-xl"></i>
                                 </div>
-                                <div class="team-name">Dr. Mike Smith</div>
-                                <div class="team-role">Postdoc Researcher</div>
-                                <div class="team-stats">
-                                    <div class="team-stat">
-                                        <div class="team-stat-value">12</div>
-                                        <div class="team-stat-label">Papers</div>
+                                <span class="px-3 py-1 bg-gray-200 text-gray-600 text-xs font-medium rounded-full">analyzing</span>
+                            </div>
+                            
+                            <h3 class="font-bold text-xl text-gray-900 mb-1">Exome</h3>
+                            <p class="text-sm text-gray-500 mb-6">Sample: SMP-002</p>
+                            
+                            <div class="space-y-4 mb-6">
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span class="text-gray-600">Quality Score</span>
+                                        <span class="font-semibold text-gray-900">96.2%</span>
                                     </div>
-                                    <div class="team-stat">
-                                        <div class="team-stat-value">89</div>
-                                        <div class="team-stat-label">Citations</div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                        <div class="bg-gray-900 h-2 rounded-full" style="width: 96.2%"></div>
                                     </div>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-600">Coverage</span>
+                                    <span class="font-semibold text-gray-900">100X</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-600">Variants Found</span>
+                                    <span class="font-semibold text-gray-900">1,247</span>
                                 </div>
                             </div>
 
-                            <div class="team-card">
-                                <div class="team-avatar" style="background: var(--gradient-accent);">
-                                    AL
-                                    <div class="team-status" style="background: var(--gray-400);"></div>
-                                </div>
-                                <div class="team-name">Dr. Anna Lee</div>
-                                <div class="team-role">Graduate Student</div>
-                                <div class="team-stats">
-                                    <div class="team-stat">
-                                        <div class="team-stat-value">5</div>
-                                        <div class="team-stat-label">Papers</div>
-                                    </div>
-                                    <div class="team-stat">
-                                        <div class="team-stat-value">23</div>
-                                        <div class="team-stat-label">Citations</div>
-                                    </div>
+                            <div class="bg-gray-100 rounded-lg p-4 mb-4">
+                                <div class="flex items-center gap-2 text-gray-600">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    <span class="text-sm">Analysis in progress...</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Clinical Trials Page - Enhanced Content -->
+                <div id="page-trials" class="page-content hidden fade-in">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
+                        <div>
+                            <h1 class="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Clinical Trials</h1>
+                            <p class="text-gray-500">Manage patient enrollment, protocols, and trial progress</p>
+                        </div>
+                        <button class="px-4 py-2.5 gradient-bg text-white font-medium rounded-lg hover:opacity-90 transition-opacity flex items-center gap-2 shadow-lg shadow-purple-200 w-full sm:w-auto justify-center">
+                            <i class="fas fa-plus"></i>
+                            New Trial
+                        </button>
+                    </div>
+
+                    <!-- Trial Stats -->
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                        <div class="bg-white p-5 rounded-xl border border-gray-200 card-hover">
+                            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center text-green-600 mb-3">
+                                <i class="fas fa-check-circle text-lg"></i>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-1">Active Trials</p>
+                            <p class="text-2xl lg:text-3xl font-bold text-gray-900">5</p>
+                        </div>
+                        
+                        <div class="bg-white p-5 rounded-xl border border-gray-200 card-hover">
+                            <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 mb-3">
+                                <i class="fas fa-users text-lg"></i>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-1">Enrolled Patients</p>
+                            <p class="text-2xl lg:text-3xl font-bold text-gray-900">248</p>
+                        </div>
+                        
+                        <div class="bg-white p-5 rounded-xl border border-gray-200 card-hover">
+                            <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 mb-3">
+                                <i class="fas fa-clipboard-check text-lg"></i>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-1">Completed</p>
+                            <p class="text-2xl lg:text-3xl font-bold text-gray-900">12</p>
+                        </div>
+                        
+                        <div class="bg-white p-5 rounded-xl border border-gray-200 card-hover">
+                            <div class="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center text-amber-600 mb-3">
+                                <i class="fas fa-clock text-lg"></i>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-1">Pending Review</p>
+                            <p class="text-2xl lg:text-3xl font-bold text-gray-900">3</p>
+                        </div>
+                    </div>
+
+                    <!-- Active Trials List -->
+                    <div class="bg-white rounded-xl border border-gray-200 p-6 mb-6">
+                        <h2 class="text-lg font-bold text-gray-900 mb-4">Active Clinical Trials</h2>
+                        <div class="space-y-4">
+                            <div class="border border-gray-200 rounded-xl p-5 card-hover">
+                                <div class="flex flex-col lg:flex-row lg:items-center justify-between mb-4 gap-4">
+                                    <div>
+                                        <h3 class="font-bold text-lg text-gray-900 mb-1">Phase II - Oncology Drug X-294</h3>
+                                        <p class="text-sm text-gray-500">Testing efficacy of targeted therapy for triple-negative breast cancer</p>
+                                    </div>
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 w-fit">Recruiting</span>
+                                </div>
+                                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
+                                    <div>
+                                        <p class="text-gray-500 mb-1">Trial ID</p>
+                                        <p class="font-semibold text-gray-900">NCT-2024-001</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-500 mb-1">Participants</p>
+                                        <p class="font-semibold text-gray-900">45/120</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-500 mb-1">Start Date</p>
+                                        <p class="font-semibold text-gray-900">Jan 15, 2024</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-500 mb-1">Principal Investigator</p>
+                                        <p class="font-semibold text-gray-900">Dr. Sarah Johnson</p>
+                                    </div>
+                                </div>
+                                <div class="mt-4 pt-4 border-t border-gray-100 flex gap-2">
+                                    <button class="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors">View Details</button>
+                                    <button class="px-4 py-2 border border-gray-300 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 transition-colors">Patient Data</button>
+                                </div>
+                            </div>
+
+                            <div class="border border-gray-200 rounded-xl p-5 card-hover">
+                                <div class="flex flex-col lg:flex-row lg:items-center justify-between mb-4 gap-4">
+                                    <div>
+                                        <h3 class="font-bold text-lg text-gray-900 mb-1">Phase I - Alzheimer's Immunotherapy</h3>
+                                        <p class="text-sm text-gray-500">Safety and dosage study for novel monoclonal antibody treatment</p>
+                                    </div>
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 w-fit">Active</span>
+                                </div>
+                                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
+                                    <div>
+                                        <p class="text-gray-500 mb-1">Trial ID</p>
+                                        <p class="font-semibold text-gray-900">NCT-2024-008</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-500 mb-1">Participants</p>
+                                        <p class="font-semibold text-gray-900">28/40</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-500 mb-1">Start Date</p>
+                                        <p class="font-semibold text-gray-900">Mar 01, 2024</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-500 mb-1">Principal Investigator</p>
+                                        <p class="font-semibold text-gray-900">Dr. Michael Roberts</p>
+                                    </div>
+                                </div>
+                                <div class="mt-4 pt-4 border-t border-gray-100 flex gap-2">
+                                    <button class="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors">View Details</button>
+                                    <button class="px-4 py-2 border border-gray-300 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 transition-colors">Patient Data</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Protocol Updates -->
+                    <div class="bg-white rounded-xl border border-gray-200 p-6">
+                        <h2 class="text-lg font-bold text-gray-900 mb-4">Recent Protocol Updates</h2>
+                        <div class="space-y-3">
+                            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                                <div class="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center text-amber-600 flex-shrink-0">
+                                    <i class="fas fa-exclamation text-sm"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900">Protocol Amendment 3.2 - Oncology Drug X-294</p>
+                                    <p class="text-xs text-gray-500 mt-1">Updated inclusion criteria for patient age range. Effective immediately.</p>
+                                    <p class="text-xs text-gray-400 mt-1">2 hours ago</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                                <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 flex-shrink-0">
+                                    <i class="fas fa-info text-sm"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900">Safety Review Completed - Alzheimer's Immunotherapy</p>
+                                    <p class="text-xs text-gray-500 mt-1">No adverse events reported. Trial proceeding to cohort B.</p>
+                                    <p class="text-xs text-gray-400 mt-1">1 day ago</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Page - Enhanced Content -->
+                <div id="page-settings" class="page-content hidden fade-in">
+                    <div class="mb-6">
+                        <h1 class="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Settings</h1>
+                        <p class="text-gray-500">Manage your account, preferences, and portal configuration</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Profile Settings -->
+                        <div class="lg:col-span-2 space-y-6">
+                            <div class="bg-white rounded-xl border border-gray-200 p-6">
+                                <h2 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                                    <i class="fas fa-user-circle text-purple-600"></i>
+                                    Profile Information
+                                </h2>
+                                <div class="flex flex-col sm:flex-row gap-6 mb-6">
+                                    <div class="flex-shrink-0">
+                                        <div class="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 text-3xl font-bold mx-auto sm:mx-0">
+                                            JD
+                                        </div>
+                                        <button class="mt-2 text-sm text-purple-600 hover:text-purple-700 font-medium w-full text-center">Change Photo</button>
+                                    </div>
+                                    <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                                            <input type="text" value="John" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                                            <input type="text" value="Researcher" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                        </div>
+                                        <div class="sm:col-span-2">
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                                            <input type="email" value="mathumitha1698@gmail.com" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                        </div>
+                                        <div class="sm:col-span-2">
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Institution</label>
+                                            <input type="text" value="BioTech Labs Research Institute" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex justify-end gap-3">
+                                    <button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">Cancel</button>
+                                    <button class="px-4 py-2 gradient-bg text-white rounded-lg hover:opacity-90 transition-opacity">Save Changes</button>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-xl border border-gray-200 p-6">
+                                <h2 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                                    <i class="fas fa-bell text-purple-600"></i>
+                                    Notification Preferences
+                                </h2>
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between py-3 border-b border-gray-100">
+                                        <div>
+                                            <p class="font-medium text-gray-900">Email Notifications</p>
+                                            <p class="text-sm text-gray-500">Receive updates about project status and sample analysis</p>
+                                        </div>
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" checked class="sr-only peer">
+                                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                                        </label>
+                                    </div>
+                                    <div class="flex items-center justify-between py-3 border-b border-gray-100">
+                                        <div>
+                                            <p class="font-medium text-gray-900">SMS Alerts</p>
+                                            <p class="text-sm text-gray-500">Get text messages for urgent sample processing updates</p>
+                                        </div>
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" class="sr-only peer">
+                                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                                        </label>
+                                    </div>
+                                    <div class="flex items-center justify-between py-3">
+                                        <div>
+                                            <p class="font-medium text-gray-900">Weekly Summary Reports</p>
+                                            <p class="text-sm text-gray-500">Receive weekly digest of all lab activities</p>
+                                        </div>
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" checked class="sr-only peer">
+                                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-xl border border-gray-200 p-6">
+                                <h2 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                                    <i class="fas fa-shield-alt text-purple-600"></i>
+                                    Security Settings
+                                </h2>
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-600">
+                                                <i class="fas fa-check"></i>
+                                            </div>
+                                            <div>
+                                                <p class="font-medium text-gray-900">Two-Factor Authentication</p>
+                                                <p class="text-sm text-gray-500">Enabled via Authenticator App</p>
+                                            </div>
+                                        </div>
+                                        <button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-white transition-colors text-sm">Configure</button>
+                                    </div>
+                                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600">
+                                                <i class="fas fa-key"></i>
+                                            </div>
+                                            <div>
+                                                <p class="font-medium text-gray-900">Password</p>
+                                                <p class="text-sm text-gray-500">Last changed 3 months ago</p>
+                                            </div>
+                                        </div>
+                                        <button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-white transition-colors text-sm">Update</button>
+                                    </div>
+                                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center text-purple-600">
+                                                <i class="fas fa-history"></i>
+                                            </div>
+                                            <div>
+                                                <p class="font-medium text-gray-900">Login History</p>
+                                                <p class="text-sm text-gray-500">View recent account activity</p>
+                                            </div>
+                                        </div>
+                                        <button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-white transition-colors text-sm">View</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sidebar Settings -->
+                        <div class="space-y-6">
+                            <div class="bg-white rounded-xl border border-gray-200 p-6">
+                                <h2 class="text-lg font-bold text-gray-900 mb-4">Lab Preferences</h2>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Default Temperature Unit</label>
+                                        <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                            <option>Celsius (°C)</option>
+                                            <option>Fahrenheit (°F)</option>
+                                            <option>Kelvin (K)</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Date Format</label>
+                                        <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                            <option>MM/DD/YYYY</option>
+                                            <option>DD/MM/YYYY</option>
+                                            <option>YYYY-MM-DD</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Time Zone</label>
+                                        <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                            <option>UTC-05:00 Eastern Time</option>
+                                            <option>UTC-08:00 Pacific Time</option>
+                                            <option>UTC+00:00 London</option>
+                                            <option>UTC+05:30 India</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-xl border border-gray-200 p-6">
+                                <h2 class="text-lg font-bold text-gray-900 mb-4">Data Export</h2>
+                                <p class="text-sm text-gray-500 mb-4">Download your research data and activity logs</p>
+                                <div class="space-y-2">
+                                    <button class="w-full px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-left flex items-center gap-2">
+                                        <i class="fas fa-download text-gray-400"></i>
+                                        Export Project Data (CSV)
+                                    </button>
+                                    <button class="w-full px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-left flex items-center gap-2">
+                                        <i class="fas fa-download text-gray-400"></i>
+                                        Export Sample Reports (PDF)
+                                    </button>
+                                    <button class="w-full px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-left flex items-center gap-2">
+                                        <i class="fas fa-download text-gray-400"></i>
+                                        Activity Log (JSON)
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="bg-red-50 rounded-xl border border-red-200 p-6">
+                                <h2 class="text-lg font-bold text-red-900 mb-2">Danger Zone</h2>
+                                <p class="text-sm text-red-700 mb-4">Irreversible actions for your account</p>
+                                <button class="w-full px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm font-medium">
+                                    Delete Account
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </main>
     </div>
 
-    <!-- Mobile Bottom Navigation -->
-    <nav class="mobile-nav">
-        <div class="mobile-nav-items">
-            <a href="#" class="mobile-nav-item active">
-                <i>📊</i>
-                <span>Home</span>
-            </a>
-            <a href="#" class="mobile-nav-item">
-                <i>📄</i>
-                <span>Papers</span>
-            </a>
-            <a href="#" class="mobile-nav-item">
-                <i>🔬</i>
-                <span>Lab</span>
-            </a>
-            <a href="#" class="mobile-nav-item">
-                <i>👤</i>
-                <span>Profile</span>
-            </a>
-        </div>
-    </nav>
-
     <script>
-        // Mobile Menu Toggle
-        const menuToggle = document.getElementById('menuToggle');
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const closeSidebarBtn = document.getElementById('close-sidebar');
         const sidebar = document.getElementById('sidebar');
-        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const overlay = document.getElementById('sidebar-overlay');
 
-        function toggleSidebar() {
-            sidebar.classList.toggle('active');
-            sidebarOverlay.classList.toggle('active');
-            document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : '';
+        function openSidebar() {
+            sidebar.classList.remove('-translate-x-full');
+            overlay.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
         }
 
-        menuToggle.addEventListener('click', toggleSidebar);
-        sidebarOverlay.addEventListener('click', toggleSidebar);
+        function closeSidebar() {
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
 
-        // Close sidebar on nav link click (mobile)
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', () => {
-                if (window.innerWidth <= 768) {
-                    toggleSidebar();
+        mobileMenuBtn.addEventListener('click', openSidebar);
+        closeSidebarBtn.addEventListener('click', closeSidebar);
+        overlay.addEventListener('click', closeSidebar);
+
+        // Navigation functionality
+        function navigateTo(page) {
+            // Hide all pages
+            document.querySelectorAll('.page-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            
+            // Show selected page
+            const selectedPage = document.getElementById(`page-${page}`);
+            if (selectedPage) {
+                selectedPage.classList.remove('hidden');
+            }
+            
+            // Update nav active states
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.page === page) {
+                    item.classList.add('active');
                 }
             });
+            
+            // Close mobile sidebar
+            closeSidebar();
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Initialize dashboard as active
+        document.addEventListener('DOMContentLoaded', () => {
+            navigateTo('dashboard');
         });
 
-        // Handle resize and orientation change
+        // Handle window resize
         window.addEventListener('resize', () => {
-            if (window.innerWidth > 768) {
-                sidebar.classList.remove('active');
-                sidebarOverlay.classList.remove('active');
-                document.body.style.overflow = '';
+            if (window.innerWidth >= 1024) {
+                closeSidebar();
             }
         });
-
-        window.addEventListener('orientationchange', () => {
-            setTimeout(() => {
-                sidebar.classList.remove('active');
-                sidebarOverlay.classList.remove('active');
-                document.body.style.overflow = '';
-            }, 100);
-        });
-
-        // Counter animation
-        function animateCounter(element, target, duration = 2000) {
-            let start = 0;
-            const startTime = performance.now();
-            
-            function update(currentTime) {
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                const easeProgress = 1 - Math.pow(1 - progress, 3);
-                const current = Math.floor(easeProgress * target);
-                
-                element.textContent = current.toLocaleString();
-                
-                if (progress < 1) {
-                    requestAnimationFrame(update);
-                } else {
-                    element.textContent = target.toLocaleString();
-                }
-            }
-            requestAnimationFrame(update);
-        }
-
-        // Trigger counter animations
-        const statValues = document.querySelectorAll('.stat-value');
-        const targets = [24, 12, 1284, 48];
-        
-        const statsObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const index = Array.from(statValues).indexOf(entry.target);
-                    if (index !== -1) {
-                        animateCounter(entry.target, targets[index]);
-                        statsObserver.unobserve(entry.target);
-                    }
-                }
-            });
-        }, { threshold: 0.5 });
-
-        statValues.forEach(stat => statsObserver.observe(stat));
-
-        // Touch feedback
-        document.querySelectorAll('.btn, .header-btn, .nav-link, .pub-item, .timeline-content').forEach(el => {
-            el.addEventListener('touchstart', function() {
-                this.style.transform = 'scale(0.98)';
-            }, { passive: true });
-            
-            el.addEventListener('touchend', function() {
-                this.style.transform = '';
-            }, { passive: true });
-        });
-
-        // Mobile nav active state
-        document.querySelectorAll('.mobile-nav-item').forEach(item => {
-            item.addEventListener('click', (e) => {
-                e.preventDefault();
-                document.querySelectorAll('.mobile-nav-item').forEach(i => i.classList.remove('active'));
-                e.currentTarget.classList.add('active');
-            });
-        });
-
-        // Header hide on scroll (mobile)
-        let lastScrollTop = 0;
-        const topHeader = document.querySelector('.top-header');
-        const dashboardContent = document.querySelector('.dashboard-content');
-        
-        if (window.innerWidth <= 768) {
-            dashboardContent.addEventListener('scroll', () => {
-                const scrollTop = dashboardContent.scrollTop;
-                if (scrollTop > lastScrollTop && scrollTop > 100) {
-                    topHeader.style.transform = 'translateY(-100%)';
-                } else {
-                    topHeader.style.transform = 'translateY(0)';
-                }
-                lastScrollTop = scrollTop;
-            }, { passive: true });
-        }
-
-        // Prevent double-tap zoom
-        let lastTouchEnd = 0;
-        document.addEventListener('touchend', (e) => {
-            const now = Date.now();
-            if (now - lastTouchEnd <= 300) {
-                e.preventDefault();
-            }
-            lastTouchEnd = now;
-        }, { passive: false });
     </script>
 </body>
 </html>
