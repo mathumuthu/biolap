@@ -86,7 +86,6 @@ border-radius:8px;
 border:none;
 }
 
-/* password eye */
 .password-box{
 position:relative;
 }
@@ -98,7 +97,6 @@ top:12px;
 cursor:pointer;
 }
 
-/* remember */
 .row{
 display:flex;
 justify-content:space-between;
@@ -112,7 +110,6 @@ color:white;
 text-decoration:none;
 }
 
-/* button */
 button{
 margin-top:20px;
 width:100%;
@@ -124,7 +121,6 @@ color:white;
 cursor:pointer;
 }
 
-/* signup */
 .signup{
 margin-top:15px;
 color:white;
@@ -162,12 +158,11 @@ width:90%;
 <label>Login As</label>
 <select id="role">
 <option value="Administrator">Administrator</option>
-<option value="Researcher" selected>Researcher</option>
 <option value="Patient">Patient</option>
 </select>
 </div>
 
-<!-- EMAIL (NEW) -->
+<!-- EMAIL -->
 <div class="input-group">
 <label>Email ID</label>
 <input type="email" id="email" placeholder="Enter your email">
@@ -184,7 +179,7 @@ width:90%;
 
 </div>
 
-<!-- REMEMBER + FORGOT -->
+<!-- REMEMBER -->
 <div class="row">
 <label>
 <input type="checkbox"> Remember me
@@ -205,13 +200,11 @@ Don't have an account?
 
 <script>
 
-/* PASSWORD SHOW */
 function togglePassword(){
 let pass=document.getElementById("password");
 pass.type = pass.type === "password" ? "text" : "password";
 }
 
-/* LOGIN */
 function loginUser(event){
 
 event.preventDefault();
@@ -220,7 +213,6 @@ let email=document.getElementById("email").value.trim();
 let password=document.getElementById("password").value.trim();
 let role=document.getElementById("role").value;
 
-/* VALIDATION */
 let emailPattern=/^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
 
 if(email==="" || password===""){
@@ -236,9 +228,6 @@ return;
 /* REDIRECT */
 if(role==="Administrator"){
     window.location.href="admin-dashboard.html";
-}
-else if(role==="Researcher"){
-    window.location.href="researcher-dashboard.html";
 }
 else{
     window.location.href="patient-dashboard.html";
