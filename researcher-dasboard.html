@@ -193,14 +193,15 @@
                     </button></a> 
                     
                     <div class="flex items-center gap-3 pl-4 border-l border-gray-200">
-                        <!-- <div class="text-right hidden xl:block">
-                            <p class="text-sm font-semibold text-gray-900">Dr. John Researcher</p>
-                            <p class="text-xs text-gray-500">mathumitha1698@gmail.com</p>
-                        </div> -->
-                        <!-- <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-semibold cursor-pointer hover:bg-blue-200 transition-colors">
-                            JD
-                        </div> -->
-                       <!-- <i class="fas fa-chevron-down text-gray-400 text-sm cursor-pointer"></i> -->
+                        <div class="text-right hidden xl:block">
+    <p id="userName" class="text-sm font-semibold text-gray-900">
+        Welcome
+    </p>
+    <p id="userEmail" class="text-xs text-gray-500">
+        Loading...
+    </p>
+</div>
+                       <i class="fas fa-chevron-down text-gray-400 text-sm cursor-pointer"></i> 
                     </div>
                 </div>
             </header>
@@ -219,7 +220,7 @@
                 <!-- Dashboard Page -->
                 <div id="page-dashboard" class="page-content fade-in">
                     <div class="mb-8">
-                        <h1 class="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Welcome back, Dr. John Researcher!</h1>
+                        <h1 class="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Welcome back, !</h1>
                         <p class="text-gray-500">Here's what's happening with your research today</p>
                     </div>
 
@@ -1167,6 +1168,15 @@
                 closeSidebar();
             }
         });
+firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+        document.getElementById("userName").innerText =
+            "Welcome, " + user.email;
+
+        document.getElementById("userEmail").innerText =
+            user.email;
+    }
+});
     </script>
 </body>
 </html>
